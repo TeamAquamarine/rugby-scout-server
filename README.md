@@ -1,11 +1,9 @@
 # Rugby Scout Server
-=====
 # About Us
 
 
 
 
-=====
 # User Stories
 
 ## Users
