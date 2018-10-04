@@ -57,3 +57,48 @@ Created by: Sharon Miller, Connor Crossley, Alex Hanson
 
 - As a **developer** I will be able to have my server dynamically route to different models.
 
+# Git & Github Team Workflow
+=================
+
+## When a new feature is started
+* Pull from the most up to date development branch   
+ * `git checkout development`  
+ * `git pull origin development`
+ * Create a new feature branch with `git checkout -b <branchname>` 
+ * Branch names need to include <[issue_number]_[issue_title]> as naming convention so they also tie to our github project issues. 
+* Do work on your feature branch and **add**, **commit**, and **push**   
+ * `git add <file>`  
+ * `git commit -m <useful message>`   
+ * commit messages should also include prefixes such as "closes #[issue_number]. <rest of message>" or "references #[issue_number]. <rest of message>"
+ * `git push origin <feature_branch_name>`
+* On GitHub:
+ * Create a Pull Request (PR) for that branch on GitHub
+ * Have at LEAST one other person, preferably both to review the code in the PR and merge it.
+
+
+## Time for a Merge Party!
+
+**WHEN A PULL REQUEST FROM SOMEONE ELSE'S \<FEATURE BRANCH> IS MERGED TO DEVELOPMENT, EVERYONE MUST DO THESE STEPS**  
+
+ * commit changes to your _feature branch_
+   * `git add <file>`  
+   * `git commit -m <useful message>`   
+ * update your local _development_ branch  
+   * `git checkout development`   
+   * `git pull origin development`  
+ * update  _feature branch_ with changes in _development_  
+ 	 * `git checkout <feature_branch_name>`  
+   * `git merge development`   
+ * handle merge conflicts _if there are any_  
+  	* Check all project files for the markers that indicate merge conflicts (in other words, the `>>>>>>>>>` and `HEAD`
+  	* Edit the code to remove the redundancies causing the merge conflict, and eliminate the markers
+  	* `git add <affected-files>`
+  	* `git commit -m "merged master"` 
+
+## MVP
+* Once features are sufficiently developed to the point of a working MVP run PR into master branch
+* Running PR into master branch should trigger “Travis CI” to check code with tests.
+* Fix any outstanding issues  
+* `Checkout` local master branch and `fetch` origin master branch.
+* Push local master branch into heroku branch for deployment.
+* Additional features will go into development branch first before being pulled into master and repeating this process
