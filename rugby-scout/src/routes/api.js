@@ -7,8 +7,8 @@ router.post('', () => {
 
 });
 
-router.get('', () => {
-
+router.get('/hello', (req, res, next) => {
+  res.send('hello world');
 });
 
 router.put('', () => {
