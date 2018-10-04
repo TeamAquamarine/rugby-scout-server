@@ -58,7 +58,6 @@ Created by: Sharon Miller, Connor Crossley, Alex Hanson
 - As a **developer** I will be able to have my server dynamically route to different models.
 
 # Git & Github Team Workflow
-=================
 
 ## When a new feature is started
 * Pull from the most up to date development branch   
