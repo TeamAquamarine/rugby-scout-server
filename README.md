@@ -7,9 +7,9 @@
 # User Stories
 
 ## Users
-- As a *college recruiter* I want to use rugby scout to see stats and media related to a player so I can identify talent.
+- As a **college recruiter** I want to use rugby scout to see stats and media related to a player so I can identify talent.
 
-- As a *college recruiter* _(Stretch goal)_ I should have access to contact information so I can contact potential talent.
+- As a **college recruiter** _(Stretch goal)_ I should have access to contact information so I can contact potential talent.
 
 - As a *rugby player* I should be able to create a profile with a profile picture so that I can help myself get identified by scouts.
 
