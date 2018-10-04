@@ -23,9 +23,7 @@ Created by: Sharon Miller, Connor Crossley, Alex Hanson
 
 - As a **rugby player** or **coach** _(Stretch goal #1)_ I should have the ability to upload media to my profile so that I can personalize my profile with better content. _(Post request saving something to s3 bucket)_
 
-- As a **rugby player**m or **coach** I should have the ability to enter/update my stats so that recruiters can see the my latest performance statistics. _(put request)_
-
-- As a **coach** I want to be able to edit my own bio, roster, stats and media so that I can control my public profile.
+- As a **rugby player** or **coach** I should have the ability to enter/update my stats so that recruiters can see the my latest performance statistics. _(put request)_
 
 - As a **coach** I want to be able to add/remove players on my team so that I can maintain a roster.
 
