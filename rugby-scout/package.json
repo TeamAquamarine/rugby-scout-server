@@ -1,0 +1,19 @@
+{
+  "name": "rugby-scout",
+  "version": "0.1.0",
+  "description": "Rugby Scout server-side application",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamAquamarine/rugby-scout-server.git"
+  },
+  "author": "Sharon Miller <sharonmillerdev@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeamAquamarine/rugby-scout-server/issues"
+  },
+  "homepage": "https://github.com/TeamAquamarine/rugby-scout-server#readme"
+}
