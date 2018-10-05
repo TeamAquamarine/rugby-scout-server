@@ -50,6 +50,15 @@ describe('COACH model CRUD operation tests', () => {
         expect(response.body).toHaveProperty('_id');
       });
   });
+  test('post to coach without a required value should return a 500 error', done => {
+    let postData = {};
+    return superagent.post('http://localhost:3000/team')
+      .send(postData)
+      .end((err, res) => {
+        expect(res.status).toEqual(500);
+        done();
+      });
+  });
 });
 
 describe('TEAM model CRUD operation tests', () => {
