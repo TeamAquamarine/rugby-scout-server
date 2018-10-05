@@ -32,7 +32,6 @@ describe('Team model schema tests', () => {
 
     expect(typeof summitTeam.city).toBe('string');
   });
-  //summitTeam
 
   test('should default be undefined if city is not a input', () => {
     let summitTeam = new Team();
