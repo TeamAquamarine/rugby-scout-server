@@ -48,6 +48,7 @@ userSchema.methods.generateToken = function () {
   return jwt.sign({ id: this._id }, process.env.SECRET);
 };
 
+
 //uses bcrypt decryption to compare passwords
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compare(password, this.password)

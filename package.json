@@ -7,6 +7,15 @@
     "test": "jest --coverage",
     "watch": "DEBUG=express:router nodemon index.js"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!**/index.js",
+      "!**/app.js"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TeamAquamarine/rugby-scout-server.git"
