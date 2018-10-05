@@ -2,7 +2,6 @@
 
 import requireAll from 'require-dir';
 const models = requireAll('../models/');
-console.log(models);
 
 export default (req, res, next) => {
   let model = req && req.params && req.params.model;

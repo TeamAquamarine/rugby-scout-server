@@ -8,18 +8,29 @@ router.param('model', modelFinder);
 
 router.post('/:model', (req, res, next) => {
   let document = new req.model(req.body);
-  console.log(document);
+  // console.log(document);
 
   document.save()
     .then(data => {
-      console.log(data);
+      // console.log(data);
       res.send(data);
     })
     .catch(next);
 });
 
+/***********************************
+*     GET REQUESTS                 *
+************************************/
 router.get('/hello', (req, res, next) => {
   res.send('hello world');
+});
+
+router.get('/:model/:id', (req, res, next) => {
+  return req.model.findOne({ _id: req.params.id })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
 });
 
 router.put('', () => {
