@@ -12,7 +12,7 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', function(next){
-  bcrypt.hash(this.password, 9)
+  bcrypt.hash(this.password, 5)
     .then(hashedPassword => {
       this.password = hashedPassword;
       next();
