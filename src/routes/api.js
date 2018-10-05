@@ -30,15 +30,20 @@ router.get('/:model/:id', (req, res, next) => {
   return req.model.findOne({ _id: req.params.id })
     .then(data => {
       res.send(data);
-    });
+    })
+    .catch(next);
 });
 
 
 /***********************************
 *     PUT REQUESTS                 *
 ************************************/
-router.put('', () => {
-
+router.put('/:model/:id', (req, res, next) => {
+  return req.model.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
 });
 
 /***********************************
