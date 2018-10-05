@@ -49,8 +49,13 @@ router.put('/:model/:id', (req, res, next) => {
 /***********************************
 *     DELETE REQUESTS              *
 ************************************/
-router.delete('', () => {
-
+router.delete('/:model/:id', (req, res, next) => {
+  return req.model.findByIdAndDelete({ _id: req.params.id })
+    .then(data => {
+      console.log(data);
+      res.status(200).send(data);
+    })
+    .catch(next);
 });
 
 export default router;

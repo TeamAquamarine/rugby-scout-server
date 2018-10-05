@@ -14,7 +14,6 @@ describe('COACH model CRUD operation tests', () => {
 
   afterAll(done => {
     mongoose.connection.dropCollection('coaches');
-    mongoose.connection.dropCollection('users');
     mongoose.disconnect(done);
   });
 
@@ -73,18 +72,10 @@ describe('COACH model CRUD operation tests', () => {
       .send(coach)
       .then(res => {
         id = res.body._id;
-        console.log(id);
       });
 
     test('should respond with the updated document', done => {
       expect.assertions(2);
-      // return superagent.post('http://localhost:3000/coach')
-      //   .send(coach)
-      //   .then(res => {
-      //     expect(res.body._id).toBeDefined();
-
-
-      //     expect.assertions(2);
       let updatedCoach = {
         firstName: 'Jessica',
         lastName: 'Hutchison',
@@ -98,6 +89,41 @@ describe('COACH model CRUD operation tests', () => {
           done();
         })
         .catch(done);
+    });
+  });
+
+  describe('Coach DELETE request', () => {
+    // let coach = {
+    //   firstName: 'Sharon',
+    //   lastName: 'Miller',
+    // };
+
+    // let id;
+
+    // superagent.post('http://localhost:3000/coach')
+    //   .send(coach)
+    //   .then(res => {
+    //     id = res.body._id;
+    //     console.log(id);
+    //   })
+    //   .catch(console.error);
+
+    test('should delete a resource from the collection', done => {
+
+      let coach = {
+        firstName: 'Sharon',
+        lastName: 'Miller',
+      };
+      let data = new Coach(coach);
+      data.save()
+        .then(data => {
+          superagent.delete(`http://localhost:3000/coach/${data._id}`)
+            .then(res => {
+              expect(res.status).toBe(200);
+              done();
+            })
+            .catch(done);
+        });
     });
   });
 });
