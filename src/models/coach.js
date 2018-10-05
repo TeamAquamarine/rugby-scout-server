@@ -1,7 +1,7 @@
 'use strict';
 
 import mongoose from 'mongoose';
-import Team from '../models/team';
+// import Team from '../models/team';
 const Schema = mongoose.Schema;
 
 const coachSchema = Schema({
