@@ -93,20 +93,6 @@ describe('COACH model CRUD operation tests', () => {
   });
 
   describe('Coach DELETE request', () => {
-    // let coach = {
-    //   firstName: 'Sharon',
-    //   lastName: 'Miller',
-    // };
-
-    // let id;
-
-    // superagent.post('http://localhost:3000/coach')
-    //   .send(coach)
-    //   .then(res => {
-    //     id = res.body._id;
-    //     console.log(id);
-    //   })
-    //   .catch(console.error);
 
     test('should delete a resource from the collection', done => {
 
