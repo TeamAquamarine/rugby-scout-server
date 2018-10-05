@@ -52,7 +52,7 @@ describe('Coach model tests', () => {
 describe('MONGO interactions', () => {
 
   beforeAll(() => {
-    mongoose.connect(process.env.MONGODB_URI_DEV);
+    mongoose.connect(`${process.env.MONGODB_URI_DEV}`);
 
   });
 
