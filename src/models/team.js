@@ -7,9 +7,10 @@ const Schema = mongoose.Schema;
 
 const teamSchema = Schema({
   name: { type: String, required: true },
-  city: { type: String },
-  state: { type: String},
+  city: { type: String, required: true },
+  state: { type: String, required: true},
   phone: { type: String },
+  email: {type: String, required: true},
   size: {type: Number, min: 0, default: 0},
 });
 
