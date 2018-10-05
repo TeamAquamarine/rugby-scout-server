@@ -18,8 +18,19 @@ router.post('/:model', (req, res, next) => {
     .catch(next);
 });
 
+/***********************************
+*     GET REQUESTS                 *
+************************************/
 router.get('/hello', (req, res, next) => {
   res.send('hello world');
+});
+
+router.get('/:model/:id', (req, res, next) => {
+  return req.model.findOne({ _id: req.params.id })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
 });
 
 router.put('', () => {
