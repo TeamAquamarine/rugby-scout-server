@@ -3,7 +3,7 @@
 import User from './model';
 
 export default (req, res, next) => {
-  
+
   let authenticate = (auth) =>{
     User.authenticate(auth)
       .then(user => {
@@ -11,6 +11,19 @@ export default (req, res, next) => {
           throw console.error('user could not be authenticated');
         } else {
           req.token = user.generateToken();
+          next();
+        }
+      })
+      .catch(next);
+  };
+
+  let authorize = (token) => {
+    User.authorize(token)
+      .then(user => {
+        if(!user){
+          console.error('could not get user');
+        } else {
+          req.user = user;
           next();
         }
       })
@@ -30,5 +43,8 @@ export default (req, res, next) => {
     let [username, password] = bufferString.split(':');
     auth = { username, password };
     authenticate(auth);
+  } else if (authHeader.match(/bearer/i)) {
+    let token = authHeader.replace(/bearer\s+/i, '');
+    authorize(token);
   }
 };

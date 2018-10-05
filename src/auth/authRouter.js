@@ -20,4 +20,5 @@ authRouter.get('/signin', auth, (req, res, next) => {
   res.send(req.token);
 });
 
+
 export default authRouter;

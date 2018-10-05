@@ -24,6 +24,15 @@ userSchema.statics.authenticate = function (auth) {
     .catch(console.error);
 };
 
+userSchema.statics.authorize = function (token) {
+  let parsedToken = jwt.verify(token, process.env.SECRET);
+  let query = {_id: parsedToken.id};
+
+  return this.findOne(query)
+    .then(user => user)
+    .catch(console.error);
+};
+
 //Creates a more secure hashed password before saving
 userSchema.methods.hashPassword = function (salt, next) {
   bcrypt.hash(this.password, salt)
