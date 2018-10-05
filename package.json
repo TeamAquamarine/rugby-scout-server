@@ -4,8 +4,17 @@
   "description": "Rugby Scout server-side application",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest --coverage --verbose",
     "watch": "DEBUG=express:router nodemon index.js"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!**/index.js",
+      "!**/app.js"
+    ]
   },
   "repository": {
     "type": "git",

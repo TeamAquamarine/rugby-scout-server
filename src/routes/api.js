@@ -8,11 +8,9 @@ router.param('model', modelFinder);
 
 router.post('/:model', (req, res, next) => {
   let document = new req.model(req.body);
-  console.log(document);
 
   document.save()
     .then(data => {
-      console.log(data);
       res.send(data);
     })
     .catch(next);
