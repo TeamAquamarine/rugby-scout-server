@@ -5,6 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import router from '../src/routes/api';
 import authRouter from './auth/authRouter';
+import modelFinder from './middleware/modelFinder';
 
 let app = express();
 
