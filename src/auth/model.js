@@ -24,4 +24,4 @@ userSchema.methods.generateToken = function () {
   return jwt.sign({id:this._id}, process.env.SECRET);
 };
 
-export default mongoose('users', userSchema);
+export default mongoose.model('users', userSchema);
