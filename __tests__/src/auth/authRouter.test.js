@@ -23,4 +23,19 @@ describe('authRouter', () => {
         done(err);
       });
   });
+
+  test('GET signin request proof of life', (done) => {
+    expect.assertions(2);
+    return superagent.post('http://localhost:3000/signin/')
+      .send(mockBody)
+      .accept('application/JSON')
+      .then(res => {
+        expect(typeof res.body).toBe('object');
+        expect(res.status).toBe(200);
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
+  });
 });
