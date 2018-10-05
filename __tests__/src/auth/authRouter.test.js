@@ -2,13 +2,20 @@
 
 import superagent from 'superagent';
 
-describe('API Router', () => {
+describe('authRouter', () => {
 
-  test('GET signup request proof of life', (done) => {
-    expect.assertions(1);
-    return superagent.get('http://localhost:3000/signup')
+  let mockBody = {
+    username: 'alex2',
+    password: 'password',
+  };
+
+  test('POST signup request proof of life', (done) => {
+    expect.assertions(2);
+    return superagent.post('http://localhost:3000/register/')
+      .send(mockBody)
+      .accept('application/JSON')
       .then(res => {
-
+        expect(typeof res.body).toBe('object');
         expect(res.status).toBe(200);
         done();
       })
