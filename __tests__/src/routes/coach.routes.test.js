@@ -13,6 +13,7 @@ describe('COACH model CRUD operation tests', () => {
   });
 
   afterAll(done => {
+    Coach.remove({});
     mongoose.disconnect(done);
   });
 
@@ -27,5 +28,28 @@ describe('COACH model CRUD operation tests', () => {
         expect(response.body).toHaveProperty('_id');
       });
 
+  });
+
+  test(`should return a specific coach when passed a coach's id`, done => {
+    let postData = {
+      firstName: 'Alex',
+      lastName: 'Hanson',
+    };
+    expect.assertions(5);
+    return superagent.post('http://localhost:3000/coach')
+      .send(postData)
+      .then(response => {
+        return superagent.get(`http://localhost:3000/coach/${response.body._id}`)
+          .then(response => {
+            expect(response.body._id).toBeDefined();
+            expect(response.body.firstName).toBe('Alex');
+            expect(response.body.lastName).toBe('Hanson');
+            expect(response.body.bio).toBe('Hello!');
+            expect(response.body.email).toBe('Not provided');
+            done();
+          })
+          .catch(done);
+      })
+      .catch(done);
   });
 });
