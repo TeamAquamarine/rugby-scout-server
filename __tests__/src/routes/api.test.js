@@ -49,6 +49,36 @@ describe('COACH model CRUD operation tests', () => {
       .then(response => {
         expect(response.body).toHaveProperty('_id');
       });
+  });
+});
 
+describe('TEAM model CRUD operation tests', () => {
+  test('POST team and return an ID when document is saved', () => {
+    let postData = {
+      name: 'mt view',
+      city: 'bend',
+      state: 'oregon',
+      phone: '543-345-3434',
+      email: 'mycoach@coach.com',
+    };
+    return superagent.post('http://localhost:3000/team')
+      .send(postData)
+      .then(response => {
+        expect(response.body).toHaveProperty('_id');
+      });
+  });
+  test('POST team without a required field and recieve error response', done => {
+    let postData = {
+      name: 'mt view',
+      city: 'bend',
+      state: 'oregon',
+      phone: '543-345-3434',
+    };
+    return superagent.post('http://localhost:3000/team')
+      .send(postData)
+      .end((err, res) => {
+        expect(res.status).toEqual(500);
+        done();
+      });
   });
 });
