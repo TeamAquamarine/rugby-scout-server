@@ -29,6 +29,18 @@ describe('Coach model tests', () => {
     expect(coach.bio).toBe(`Hello!`);
   });
 
+  test('should create a default email value if none is provided', () => {
+    let coach = new Coach();
+
+    expect(coach.email).toBe(`Not provided`);
+  });
+
+  test('should create a default phone number placeholder if none is provided', () => {
+    let coach = new Coach();
+
+    expect(coach.phone).toBe(`123.456.7890`);
+  });
+
   test('should create a default win count and loss count of 0', () => {
     let coach = new Coach();
 
