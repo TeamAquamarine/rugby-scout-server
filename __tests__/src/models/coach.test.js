@@ -28,4 +28,11 @@ describe('Coach model tests', () => {
 
     expect(coach.bio).toBe(`Hello!`);
   });
+
+  test('should create a default win count and loss count of 0', () => {
+    let coach = new Coach();
+
+    expect(coach.wins).toBe(0);
+    expect(coach.losses).toBe(0);
+  });
 });
