@@ -14,6 +14,15 @@ describe('Team model schema tests', () => {
     });
   });
 
+  test('should be invalid if email is empty', done => {
+    let team = new Team();
+
+    team.validate(err => {
+      expect(err.errors.email).toBeDefined();
+      done();
+    });
+  });
+
   test('should create a default team size count of 0', () => {
 
     let team = new Team();
@@ -32,6 +41,7 @@ describe('Team model schema tests', () => {
 
     expect(typeof summitTeam.city).toBe('string');
   });
+ 
 
   test('should default be undefined if city is not a input', () => {
     let summitTeam = new Team();
@@ -52,4 +62,5 @@ describe('Team model schema tests', () => {
       expect(e).toBeDefined();
     }
   });
+
 });
