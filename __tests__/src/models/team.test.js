@@ -30,7 +30,7 @@ describe('Team model schema tests', () => {
     expect(team.size).toBe(0);
   });
 
-  test('should city should return be a string', () => {
+  test('should verify that city should return a string', () => {
     let team = {
       name: 'summit',
       city: 'bend',
