@@ -32,8 +32,8 @@ describe('authRouter', () => {
       .set('Authorization', 'basic ' + authString)
       .send(mockBody)
       .then(res => {
-        expect(typeof res.body).toBe('object');
         expect(res.status).toBe(200);
+        expect(typeof res.body).toBe('object');
         done();
       })
       .catch(err => {

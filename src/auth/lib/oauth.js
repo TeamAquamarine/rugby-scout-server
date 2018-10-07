@@ -1,7 +1,7 @@
 'use strict';
 
 import superagent from 'superagent';
-import User from '../model.js';
+import User from '../user.js';
 
 const authorize = req => {
   let code = req.query.code;
@@ -34,7 +34,7 @@ const authorize = req => {
 
     }).then(user => {
       return user.generateToken();
-      
+
     }).catch(error => console('error authorizing user'));
 };
 

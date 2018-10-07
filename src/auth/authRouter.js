@@ -1,6 +1,6 @@
 'use strict';
 
-import User from './model';
+import User from './user';
 import express from 'express';
 import auth from './middleware';
 import authorize from './lib/oauth';
