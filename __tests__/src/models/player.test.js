@@ -1,10 +1,7 @@
 'use strict';
 
 import Player from '../../../src/models/player';
-import superagent from 'superagent';
-import mongoose from 'mongoose';
-import { doesNotReject } from 'assert';
-import { getMaxListeners } from 'cluster';
+
 
 describe('Player model schema tests', () => {
 

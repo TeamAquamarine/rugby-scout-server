@@ -52,10 +52,7 @@ describe('TEAM model CRUD operation tests', () => {
 
   });
 
-  /***********************************
-  *    TEAM get requests     *
-  ************************************/
-  test('post to coach without a required value should return a 500 error', done => {
+  test('should return a 500 server error when post made to coach without a required value', done => {
     let postData = {};
     return superagent.post('http://localhost:3000/team')
       .send(postData)
@@ -64,8 +61,11 @@ describe('TEAM model CRUD operation tests', () => {
         done();
       });
   });
+  /***********************************
+  *    TEAM get requests     *
+  ************************************/
 
-  test('will respond with a 500 error when an invalid id is typed', done => {
+  test('should respond with a 500 error when an invalid id is typed', done => {
     return superagent.get('http://localhost:3000/team/1234')
       .end((err, res) => {
         console.log(res.body);
@@ -74,7 +74,7 @@ describe('TEAM model CRUD operation tests', () => {
       });
   });
 
-  test('will respond with a 404 error when a get request is sent to  invalid path', done => {
+  test('should respond with a 404 error when a get request is sent to  invalid path', done => {
     return superagent.get('http://localhost:3000/sfjaslkjf')
       .end((err, res) => {
         expect(res.status).toEqual(404);
@@ -82,7 +82,7 @@ describe('TEAM model CRUD operation tests', () => {
       });
   });
 
-  test('Will retrieve an team by userid', done => {
+  test('Should retrieve an team by userid', done => {
     let expected = {
       size: 0,
       _id: '5bb7a00c728a450641802acf',
@@ -97,15 +97,6 @@ describe('TEAM model CRUD operation tests', () => {
       .end((err, res) => {
         if (err) return done(err);
         expect(res.body).toEqual(expected);
-        done();
-      });
-  });
-
-  test('Will retrieve an team by userid', done => {
-    return superagent.get('http://localhost:3000/team/5bb7a00c728a450641802acf')
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.status).toEqual(200);
         done();
       });
   });
