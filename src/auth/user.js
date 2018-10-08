@@ -1,14 +1,26 @@
 'use strict';
 
-import mongoose from 'mongoose';
+import mongoose, { models, SchemaType } from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import Coach from '../models/coach';
+import Team from '../models/team';
+import Player from '../models/player';
+import Stats from '../models/statBlock';
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  //username is an email address
   username: { type: String, required: true },
   password: { type: String, required: true },
+  firstName: {type: String, required: true},
+  lastName: {type: String, required: true},
+  coach: { type: Schema.Types.ObjectId, ref: 'coaches'},
+  player: { type: Schema.Types.ObjectId, ref: 'players' },
+  team: { type: Schema.Types.ObjectId, ref: 'teams'},
+  stats: { type: Schema.Types.ObjectId, ref: 'stats'},
+
 });
 
 userSchema.pre('save', function (next) {
