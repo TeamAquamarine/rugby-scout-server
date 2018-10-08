@@ -1,6 +1,6 @@
 'use strict';
 
-import Coach from '../../../src/models/coach';
+import Team from '../../../src/models/team';
 import superagent from 'superagent';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
@@ -52,10 +52,7 @@ describe('TEAM model CRUD operation tests', () => {
 
   });
 
-  /***********************************
-  *    TEAM get requests     *
-  ************************************/
-  test('post to coach without a required value should return a 500 error', done => {
+  test('should return a 500 server error when post made to coach without a required value', done => {
     let postData = {};
     return superagent.post('http://localhost:3000/team')
       .send(postData)
@@ -64,8 +61,11 @@ describe('TEAM model CRUD operation tests', () => {
         done();
       });
   });
+  /***********************************
+  *    TEAM get requests     *
+  ************************************/
 
-  test('will respond with a 500 error when an invalid id is typed', done => {
+  test('should respond with a 500 error when an invalid id is typed', done => {
     return superagent.get('http://localhost:3000/team/1234')
       .end((err, res) => {
         console.log(res.body);
@@ -74,7 +74,7 @@ describe('TEAM model CRUD operation tests', () => {
       });
   });
 
-  test('will respond with a 404 error when a get request is sent to  invalid path', done => {
+  test('should respond with a 404 error when a get request is sent to  invalid path', done => {
     return superagent.get('http://localhost:3000/sfjaslkjf')
       .end((err, res) => {
         expect(res.status).toEqual(404);
@@ -82,31 +82,123 @@ describe('TEAM model CRUD operation tests', () => {
       });
   });
 
-  test('Will retrieve an team by userid', done => {
+  test('Should retrieve a team by userid', done => {
     let expected = {
       size: 0,
-      _id: '5bb7a00c728a450641802acf',
-      name: 'summit',
+      __v: 0,
+      _id: '5bb7d51dff9b365fa7cf5ecd',
+      name: 'mt view',
       city: 'bend',
       state: 'oregon',
-      phone: '123-456-1234',
-      email: 'sharonmillerdev@gmail.com',
+      phone: '543-345-3434',
+      email: 'mycoach@coach.com',
     };
 
-    return superagent.get('http://localhost:3000/team/5bb7a00c728a450641802acf')
+    return superagent.get('http://localhost:3000/team/5bb7d51dff9b365fa7cf5ecd')
       .end((err, res) => {
         if (err) return done(err);
         expect(res.body).toEqual(expected);
         done();
       });
   });
+  /***********************************
+    *    PLAYER PUT CRUD     *
+    ************************************/
+  test('Should update a current document', done => {
+    let expected = {
+      size: 0,
+      _id: '5bb7a00c728a450641802acf',
+      name: 'bestCoach',
+      city: 'bend',
+      state: 'oregon',
+      phone: '123-456-1234',
+      email: 'sharonmillerdev@gmail.com',
+    };
 
-  test('Will retrieve an team by userid', done => {
-    return superagent.get('http://localhost:3000/team/5bb7a00c728a450641802acf')
+    let updateData = {
+      size: 0,
+      _id: '5bb7a00c728a450641802acf',
+      name: 'bestCoach',
+      city: 'bend',
+      state: 'oregon',
+      phone: '123-456-1234',
+      email: 'sharonmillerdev@gmail.com',
+    };
+
+    return superagent.put('http://localhost:3000/team/5bb7a00c728a450641802acf')
+      .send(updateData)
       .end((err, res) => {
         if (err) return done(err);
-        expect(res.status).toEqual(200);
+        expect(res.body).toEqual(expected);
         done();
       });
+
   });
+
+  /***********************************
+*    TEAM PUT CRUD     *
+************************************/
+  describe('TEAN PUT request', () => {
+
+    let team = {
+      name: 'Bend Lava Bears',
+      city: 'bend',
+      state: 'oregon',
+      phone: '123-456-1234',
+      email: 'sharonmillerdev@gmail.com',
+    };
+    let id;
+    superagent.post('http://localhost:3000/team')
+      .send(team)
+      .then(res => {
+        id = res.body._id;
+      });
+
+    test('should respond with the updated document', done => {
+      expect.assertions(3);
+      let updatedTeam = {
+        name: 'Summit Winners',
+        city: 'Bend',
+        email: 'team@email.com',
+      };
+
+      return superagent.put(`http://localhost:3000/team/${id}`)
+        .send(updatedTeam)
+        .then(res => {
+          expect(res.body.name).toBe('Summit Winners');
+          expect(res.body.city).toBe('Bend');
+          expect(res.body.email).toBe('team@email.com'),
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+
+  /***********************************
+   *    PLAYER DELETE CRUD     *
+   ************************************/
+  describe('Team DELETE request', () => {
+
+    test('should delete a resource from the collection', done => {
+
+      let team = {
+        name: 'Sharon',
+        email: 'sharon@email.com',
+        state: 'OR',
+        city: 'Bend',
+      };
+      let data = new Team(team);
+      data.save()
+        .then(data => {
+          superagent.delete(`http://localhost:3000/team/${data._id}`)
+            .then(res => {
+              expect(res.status).toBe(200);
+              done();
+            })
+            .catch(done);
+        });
+    });
+  });
+
 });
