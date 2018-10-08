@@ -54,7 +54,6 @@ describe('TEAM model CRUD operation tests', () => {
   test('should respond with a 500 error when an invalid id is typed', done => {
     return superagent.get('http://localhost:3000/team/1234')
       .end((err, res) => {
-        console.log(res.body);
         expect(res.status).toEqual(500);
         done();
       });

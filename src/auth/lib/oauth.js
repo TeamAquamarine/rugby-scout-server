@@ -5,7 +5,6 @@ import User from '../user.js';
 
 const authorize = req => {
   let code = req.query.code;
-  console.log(code);
 
   return superagent.post('https://github.come/login/oauth/access_token')
     .type('form')
@@ -17,7 +16,6 @@ const authorize = req => {
 
     }).then(res => {
       let githubToken = res.body.access_token;
-      console.log(githubToken);
       return githubToken;
 
     }).then(githubToken => {
@@ -25,7 +23,6 @@ const authorize = req => {
         .set('Authorization', `Bearer ${githubToken}`)
         .then(response => {
           let user = response.body;
-          console.log(user);
           return user;
         });
 
