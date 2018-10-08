@@ -7,13 +7,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 describe('Player model and CRUD operation tests', () => {
-  
+
   beforeAll(() => {
     mongoose.connect(process.env.MONGODB_URI);
   });
 
   afterAll(done => {
-    mongoose.connection.dropCollection('coaches');
+    mongoose.connection.dropCollection('players');
     mongoose.disconnect(done);
   });
 
@@ -63,19 +63,32 @@ describe('Player model and CRUD operation tests', () => {
 
   test('should retrieve a player by userid', done => {
     let expected = {
-      __v: 0,
-      _id: '5bba83aaab53c21dcf37dc1b',
       bio: 'Hello!',
       firstName: 'Zach',
       lastName: 'Miller',
-      email: 'coachzach@coach.com',
+      email: 'zach@zach.com',
     };
-    return superagent.get('http://localhost:3000/player/5bba83aaab53c21dcf37dc1b')
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.body).toEqual(expected);
-        done();
-      });
+
+    let player = new Player({
+      firstName: 'Zach',
+      lastName: 'Miller',
+      email: 'zach@zach.com',
+    });
+
+    player.save()
+      .then(data => {
+        superagent.get(`http://localhost:3000/player/${data._id}`)
+          .then(res => {
+            expect(res.body._id).toBe(`${data._id}`);
+            expect(res.body.bio).toEqual(expected.bio);
+            expect(res.body.firstName).toEqual(expected.firstName);
+            expect(res.body.lastName).toEqual(expected.lastName);
+            expect(res.body.email).toEqual(expected.email);
+            done();
+          })
+          .catch(done);
+      })
+      .catch(done);
   });
 
 
@@ -111,7 +124,7 @@ describe('Player model and CRUD operation tests', () => {
           expect(res.body.firstName).toBe('Gabe');
           expect(res.body.lastName).toBe('Miller');
           expect(res.body.email).toBe('coach@email.com'),
-          done();
+            done();
         })
         .catch(done);
     });
