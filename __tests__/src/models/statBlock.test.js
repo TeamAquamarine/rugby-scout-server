@@ -1,7 +1,6 @@
 'use strict';
 
 import StatBlock from '../../../src/models/statBlock';
-import { stat } from 'fs';
 
 describe('StatBlock Model constructor tests', () => {
 
