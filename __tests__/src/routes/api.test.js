@@ -2,7 +2,6 @@
 
 import app from '../../../src/app';
 import superagent from 'superagent';
-import Coach from '../../../src/models/coach';
 import dotenv from 'dotenv';
 dotenv.config();
 

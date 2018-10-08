@@ -1,7 +1,6 @@
 'use strict';
 
 import Team from '../../../src/models/team';
-import mongoose from 'mongoose';
 
 describe('Team model schema tests', () => {
 
@@ -12,22 +11,6 @@ describe('Team model schema tests', () => {
       expect(err.errors.name).toBeDefined();
       done();
     });
-  });
-
-  test('should be invalid if email is empty', done => {
-    let team = new Team();
-
-    team.validate(err => {
-      expect(err.errors.email).toBeDefined();
-      done();
-    });
-  });
-
-  test('should create a default team size count of 0', () => {
-
-    let team = new Team();
-
-    expect(team.size).toBe(0);
   });
 
   test('should verify that city should return a string', () => {
@@ -53,7 +36,7 @@ describe('Team model schema tests', () => {
     expect(summitTeam.city).toBeUndefined();
   });
 
-  test('should err if a string is put in for team size input', () => {
+  test('should return error if no information submitted', () => {
     let team = {};
     try {
       let summitTeam = new Team(team);

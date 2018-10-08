@@ -1,14 +1,22 @@
 'use strict';
 
-import mongoose from 'mongoose';
+import mongoose, { models, SchemaType } from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  //username is an email address
   username: { type: String, required: true },
   password: { type: String, required: true },
+  coach: { type: Schema.Types.ObjectId, ref: 'coaches'},
+  player: { type: Schema.Types.ObjectId, ref: 'players' },
+  team: { type: Schema.Types.ObjectId, ref: 'teams'},
+  stats: { type: Schema.Types.ObjectId, ref: 'stats'},
+  role: { type: String, enum: ['coach', 'player']},
+
 });
 
 userSchema.pre('save', function (next) {
