@@ -9,7 +9,7 @@ dotenv.config();
 describe('Player model and CRUD operation tests', () => {
   
   beforeAll(() => {
-    mongoose.connect('mongodb+srv://ccross:Cr0ssl3y@cluster0-iltfa.mongodb.net/midterm-dev');
+    mongoose.connect(process.env.MONGODB_URI);
   });
 
   afterAll(done => {
@@ -18,7 +18,7 @@ describe('Player model and CRUD operation tests', () => {
   });
 
   /***********************************
-*     TEAM POST CRUD     *
+*     PLAYER POST CRUD     *
 ************************************/
 
   test('should return a unique id when a player document is saved', done => {

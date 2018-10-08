@@ -9,7 +9,7 @@ dotenv.config();
 describe('COACH model CRUD operation tests', () => {
 
   beforeAll(() => {
-    mongoose.connect('mongodb+srv://ccross:Cr0ssl3y@cluster0-iltfa.mongodb.net/midterm-dev');
+    mongoose.connect(process.env.MONGODB_URI);
   });
 
   afterAll(done => {
