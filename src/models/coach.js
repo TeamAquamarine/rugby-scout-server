@@ -12,7 +12,8 @@ const coachSchema = Schema({
   phone: { type: String, default: '123.456.7890' },
   wins: { type: Number, min: 0, default: 0 },
   losses: { type: Number, min: 0, default: 0 },
-  team: { type: Schema.Types.ObjectId, ref: 'Team' },
+  team: { type: Schema.Types.ObjectId, ref: 'teams' },
+  user: { type: Schema.Types.ObjectId, ref: 'users', required: true }, 
 });
 
 export default mongoose.model('coaches', coachSchema);

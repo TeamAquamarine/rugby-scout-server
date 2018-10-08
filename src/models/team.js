@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const teamSchema = Schema({
+  user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
   name: { type: String, required: true },
   city: { type: String, required: true },
   state: { type: String, required: true},

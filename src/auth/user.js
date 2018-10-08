@@ -3,10 +3,7 @@
 import mongoose, { models, SchemaType } from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import Coach from '../models/coach';
-import Team from '../models/team';
-import Player from '../models/player';
-import Stats from '../models/statBlock';
+
 
 const Schema = mongoose.Schema;
 
