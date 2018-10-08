@@ -1,6 +1,6 @@
 'use strict';
 
-import User from './model';
+import User from './user';
 
 export default (req, res, next) => {
 
@@ -8,7 +8,7 @@ export default (req, res, next) => {
     User.authenticate(auth)
       .then(user => {
         if(!user) {
-          throw console.error('user could not be authenticated');
+          throw new Error('user could not be authenticated');
         } else {
           req.token = user.generateToken();
           next();
@@ -21,7 +21,7 @@ export default (req, res, next) => {
     User.authorize(token)
       .then(user => {
         if(!user){
-          console.error('could not get user');
+          throw new Error('could not get user');
         } else {
           req.user = user;
           next();
@@ -33,7 +33,9 @@ export default (req, res, next) => {
   let auth = {};
   let authHeader = (req.headers.authorization);
 
-  if (!authHeader) {console.error('user is not authorized');}
+  if (!authHeader) {
+    throw new Error('No header present');
+  }
 
   //basic authentication parsing 
   if (authHeader.match(/basic/i)) {
@@ -46,5 +48,7 @@ export default (req, res, next) => {
   } else if (authHeader.match(/bearer/i)) {
     let token = authHeader.replace(/bearer\s+/i, '');
     authorize(token);
+  } else { 
+    throw new Error('Unknown header');
   }
 };

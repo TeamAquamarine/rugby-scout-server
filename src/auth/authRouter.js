@@ -1,8 +1,9 @@
 'use strict';
 
-import User from './model';
+import User from './user';
 import express from 'express';
 import auth from './middleware';
+import authorize from './lib/oauth';
 
 const authRouter = express.Router();
 
@@ -20,5 +21,12 @@ authRouter.get('/signin', auth, (req, res, next) => {
   res.send(req.token);
 });
 
-
+authRouter.get('/oauth', (req, res, next) => {
+  authorize(req)
+    .then(token => {
+      res.cookie('token', token);
+      res.send(req.token);
+    })
+    .catch(err => console.error(err));
+});
 export default authRouter;

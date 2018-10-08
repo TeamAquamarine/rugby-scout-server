@@ -24,6 +24,7 @@ userSchema.statics.authenticate = function (auth) {
     .catch(console.error);
 };
 
+//checks the json web token decrypted with secret against id in db
 userSchema.statics.authorize = function (token) {
   let parsedToken = jwt.verify(token, process.env.SECRET);
   let query = {_id: parsedToken.id};
@@ -31,6 +32,29 @@ userSchema.statics.authorize = function (token) {
   return this.findOne(query)
     .then(user => user)
     .catch(console.error);
+};
+//checks the database for the user and creates it if the user is not already in the database
+userSchema.statics.authorize = function (githubUser){
+  if (!githubUser){
+    return Promise.reject('invalid github user');
+  }
+
+  return this.findOne({
+    username: githubUser.login,
+
+  }).then(user => {
+    if(!user) throw new Error('user not found');
+    return user;
+
+  }).catch(err =>{
+    let username = githubUser.login;
+    let password = 'none';//oauth passwords are set to none. Password required and oauth uses tokens
+
+    return this.create({
+      username: username,
+      password: password,
+    });
+  });
 };
 
 //Creates a more secure hashed password before saving

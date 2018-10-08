@@ -1,6 +1,6 @@
 'use strict';
 
-import User from '../../../src/auth/model';
+import User from '../../../src/auth/user';
 import mongoose, { mongo } from 'mongoose';
 
 
