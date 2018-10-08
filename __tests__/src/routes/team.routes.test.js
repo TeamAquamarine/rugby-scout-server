@@ -109,33 +109,36 @@ describe('TEAM model CRUD operation tests', () => {
     *   TEAM PUT CRUD     *
     ************************************/
   test('Should update a current document', done => {
-    let expected = {
-      size: 0,
-      _id: '5bb7a00c728a450641802acf',
-      name: 'bestCoach',
-      city: 'bend',
-      state: 'oregon',
+    let team = new Team({
+      name: 'Summit',
+      city: 'Bend',
+      state: 'OR',
+      email: 'myteam@team.com',
       phone: '123-456-1234',
-      email: 'sharonmillerdev@gmail.com',
-    };
+    });
 
     let updateData = {
-      size: 0,
-      _id: '5bb7a00c728a450641802acf',
-      name: 'bestCoach',
-      city: 'bend',
-      state: 'oregon',
+      name: 'Bend High',
+      city: 'Bend',
+      state: 'OR',
       phone: '123-456-1234',
       email: 'sharonmillerdev@gmail.com',
     };
 
-    return superagent.put('http://localhost:3000/team/5bb7a00c728a450641802acf')
-      .send(updateData)
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.body).toEqual(expected);
-        done();
-      });
+    team.save()
+      .then(data => {
+        superagent.put(`http://localhost:3000/team/${data._id}`)
+          .send(updateData)
+          .then(res => {
+            expect(res.body._id).toBe(`${data._id}`);
+            expect(res.body.name).toBe('Bend High');
+            expect(res.body.state).toBe('OR');
+            expect(res.body.email).toBe('sharonmillerdev@gmail.com');
+            done();
+          })
+          .catch(done);
+      })
+      .catch(done);
 
   });
 
