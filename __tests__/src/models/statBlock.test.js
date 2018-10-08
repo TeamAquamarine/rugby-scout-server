@@ -4,11 +4,11 @@ import StatBlock from '../../../src/models/statBlock';
 
 describe('StatBlock Model constructor tests', () => {
 
-  test('should be invalid if player Id is not provided', done => {
+  test('should be invalid if user Id is not provided', done => {
     let statBlock = new StatBlock();
 
     statBlock.validate(err => {
-      expect(err.errors.player).toBeDefined();
+      expect(err.errors.user).toBeDefined();
       done();
     });
   });
@@ -24,7 +24,7 @@ describe('StatBlock Model constructor tests', () => {
     let statBlock = new StatBlock();
 
     Object.keys(statBlock._doc).forEach(property => {
-      if (property !== 'player' && property !== '_id') {
+      if (property !== 'user' && property !== '_id') {
         expect(statBlock._doc[property]).toBe(0);
       }
     });

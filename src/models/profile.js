@@ -3,8 +3,8 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-const playerSchema = Schema({
-  user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+const profileSchema = Schema({
+  user: { type: Schema.Types.ObjectId, ref: 'users' },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   bio: { type: String, default: `Hello!` },
@@ -12,4 +12,4 @@ const playerSchema = Schema({
 
 });
 
-export default mongoose.model('players', playerSchema);
+export default mongoose.model('profiles', profileSchema);
