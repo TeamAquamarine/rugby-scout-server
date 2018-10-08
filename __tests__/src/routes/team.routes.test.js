@@ -102,7 +102,7 @@ describe('TEAM model CRUD operation tests', () => {
       });
   });
   /***********************************
-    *    PLAYER PUT CRUD     *
+    *   TEAM PUT CRUD     *
     ************************************/
   test('Should update a current document', done => {
     let expected = {
@@ -176,7 +176,7 @@ describe('TEAM model CRUD operation tests', () => {
 
 
   /***********************************
-   *    PLAYER DELETE CRUD     *
+   *    TEAM DELETE CRUD     *
    ************************************/
   describe('Team DELETE request', () => {
 
