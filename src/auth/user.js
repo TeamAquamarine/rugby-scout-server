@@ -24,9 +24,9 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.pre('findOne', function (next) {
-  this.populate('stats', '-__v');
-  this.populate('coach', '-user -__v');
-  this.populate('player');
+  this.populate('stats', '-user -__v');
+  this.populate('coach', '-user -__v -role');
+  this.populate('player', '-user -__v -role');
 
   next();
 });
