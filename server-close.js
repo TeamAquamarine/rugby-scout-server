@@ -1,0 +1,4 @@
+'use strict';
+const server = require('./index');
+
+server.stop();

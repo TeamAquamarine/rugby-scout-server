@@ -2,6 +2,7 @@
 
 
 import mongoose from 'mongoose';
+import Users from '../auth/user';
 
 const Schema = mongoose.Schema;
 
@@ -15,4 +16,13 @@ const teamSchema = Schema({
   email: {type: String},
 });
 
+teamSchema.pre('save', function (next) {
+  console.log(this._id);
+  Users.findByIdAndUpdate(this.coach, {team: this._id})
+    .then(Promise.resolve(next()))
+    .catch(err => Promise.reject(err));
+
+});
+
 export default mongoose.model('teams', teamSchema);
+
