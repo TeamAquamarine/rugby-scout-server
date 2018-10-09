@@ -21,9 +21,16 @@ describe('error.js Tests', () => {
 
   let next = jest.fn();
 
-  test('Should set res.status to 500', () => {
+  test('Should set res.status to 500 when passed an error string', () => {
 
     errorWare(errorString, req, res, next);
+
+    expect(res.statusCode).toBe(500);
+  });
+
+  test('Should set res.status to 500 when passed an error object', () => {
+
+    errorWare(errorObject, req, res, next);
 
     expect(res.statusCode).toBe(500);
   });
