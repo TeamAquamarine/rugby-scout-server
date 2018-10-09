@@ -3,7 +3,8 @@
 import express from 'express';
 import modelFinder from '../middleware/modelFinder';
 import auth from '../auth/middleware';
-import team from '../models/team';
+import Team from '../models/team';
+import User from '../auth/user';
 const router = express.Router();
 
 router.param('model', modelFinder);
@@ -15,9 +16,9 @@ router.post('/team', auth, (req, res, next) => {
 
   if (req.user.role === 'coach') {
     req.body.coach = req.user._id;
-  } else {throw new Error('only coaches may create teams');}
+  } else { throw new Error('only coaches may create teams'); }
 
-  let document = new team(req.body);
+  let document = new Team(req.body);
 
   document.save()
     .then(data => {
@@ -47,6 +48,15 @@ router.get('/hello', (req, res, next) => {
   res.send('hello world');
 });
 
+router.get('/user/:id', (req, res, next) => {
+  return User.findOne({ _id: req.params.id })
+    .select('-username -password -__v')
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
+});
+
 router.get('/:model/:id', (req, res, next) => {
   return req.model.findOne({ _id: req.params.id })
     .then(data => {
@@ -59,7 +69,7 @@ router.get('/:model/:id', (req, res, next) => {
 /***********************************
 *     PUT REQUESTS                 *
 ************************************/
-router.put('/:model/', auth,  (req, res, next) => {
+router.put('/:model/', auth, (req, res, next) => {
 
   return req.model.findOneAndUpdate(req.user._id, req.body, { new: true })
     .then(data => {
