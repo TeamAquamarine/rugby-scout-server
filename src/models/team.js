@@ -24,8 +24,8 @@ teamSchema.pre('save', function (next) {
 });
 
 teamSchema.pre('findOne', function (next) {
-  this.populate('coach');
-  this.populate('players');
+  this.populate('coach', '-username -password -team -__v');
+  this.populate('players', '-username -password -team -__v');
   next();
 });
 
