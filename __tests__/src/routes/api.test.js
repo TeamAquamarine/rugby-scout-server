@@ -8,7 +8,7 @@ dotenv.config();
 
 describe('API Router', () => {
 
-  const PORT = 3000;
+  const PORT = 8887;
   beforeAll(() => {
     console.log('Starting server for testing');
     app.start(PORT);
@@ -22,7 +22,7 @@ describe('API Router', () => {
 
   test('GET request proof of life', (done) => {
     expect.assertions(1);
-    return superagent.get('http://localhost:3000/hello')
+    return superagent.get(`http://localhost:${PORT}/hello`)
       .then(res => {
 
         expect(res.text).toBe('hello world');
@@ -36,6 +36,6 @@ describe('API Router', () => {
   // does the same as the above code!
   test('GET request proof of life', async () => {
     expect.assertions(1);
-    await expect(superagent.get('http://localhost:3000/hello')).resolves.toHaveProperty('text', 'hello world');
+    await expect(superagent.get(`http://localhost:${PORT}/hello`)).resolves.toHaveProperty('text', 'hello world');
   });
 });

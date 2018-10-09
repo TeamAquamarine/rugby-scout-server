@@ -10,7 +10,7 @@ dotenv.config();
 
 describe('TEAM model CRUD operation tests', () => {
 
-  const PORT = 3000;
+  const PORT = 8889;
   beforeAll(() => {
     console.log('Starting server for testing');
     app.start(PORT);
@@ -37,7 +37,7 @@ describe('TEAM model CRUD operation tests', () => {
         phone: '543-345-3434',
         email: 'mycoach@coach.com',
       };
-      return superagent.post('http://localhost:3000/team')
+      return superagent.post(`http://localhost:${PORT}/team`)
         .send(postData)
         .then(response => {
           expect(response.body).toHaveProperty('_id');
@@ -48,7 +48,7 @@ describe('TEAM model CRUD operation tests', () => {
 
   test('should return a 500 server error when post made to coach without a required value', done => {
     let postData = {};
-    return superagent.post('http://localhost:3000/team')
+    return superagent.post(`http://localhost:${PORT}/team`)
       .send(postData)
       .end((err, res) => {
         expect(res.status).toEqual(500);
@@ -60,7 +60,7 @@ describe('TEAM model CRUD operation tests', () => {
   ************************************/
 
   test('should respond with a 500 error when an invalid id is typed', done => {
-    return superagent.get('http://localhost:3000/team/1234')
+    return superagent.get(`http://localhost:${PORT}/team/1234`)
       .end((err, res) => {
         expect(res.status).toEqual(500);
         done();
@@ -68,7 +68,7 @@ describe('TEAM model CRUD operation tests', () => {
   });
 
   test('should respond with a 404 error when a get request is sent to  invalid path', done => {
-    return superagent.get('http://localhost:3000/sfjaslkjf')
+    return superagent.get(`http://localhost:${PORT}/sfjaslkjf`)
       .end((err, res) => {
         expect(res.status).toEqual(404);
         done();
@@ -86,7 +86,7 @@ describe('TEAM model CRUD operation tests', () => {
 
     team.save()
       .then(data => {
-        superagent.get(`http://localhost:3000/team/${data._id}`)
+        superagent.get(`http://localhost:${PORT}/team/${data._id}`)
           .then(res => {
             let expected = data._id.toString();
             expect(res.body._id).toEqual(expected);
@@ -118,7 +118,7 @@ describe('TEAM model CRUD operation tests', () => {
 
     team.save()
       .then(data => {
-        superagent.put(`http://localhost:3000/team/${data._id}`)
+        superagent.put(`http://localhost:${PORT}/team/${data._id}`)
           .send(updateData)
           .then(res => {
             expect(res.body._id).toBe(`${data._id}`);
@@ -148,7 +148,7 @@ describe('TEAM model CRUD operation tests', () => {
       let data = new Team(team);
       data.save()
         .then(data => {
-          superagent.delete(`http://localhost:3000/team/${data._id}`)
+          superagent.delete(`http://localhost:${PORT}/team/${data._id}`)
             .then(res => {
               expect(res.status).toBe(200);
               done();

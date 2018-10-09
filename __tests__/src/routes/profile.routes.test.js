@@ -10,7 +10,7 @@ dotenv.config();
 
 describe('Profile model and CRUD operation tests', () => {
 
-  const PORT = 3000;
+  const PORT = 8886;
   let userId;
   beforeAll(() => {
     console.log('Starting server for testing');
@@ -43,7 +43,7 @@ describe('Profile model and CRUD operation tests', () => {
       email: 'coachzach@coach.com',
       user: userId,
     };
-    return superagent.post('http://localhost:3000/profile')
+    return superagent.post(`http://localhost:${PORT}/profile`)
       .send(postData)
       .then(response => {
         expect(response.body).toHaveProperty('_id');
@@ -57,7 +57,7 @@ describe('Profile model and CRUD operation tests', () => {
 *     PLAYER GET CRUD     *
 ************************************/
   test('should return a 500 error when a request is made to an invalid id', done => {
-    return superagent.get('http://localhost:3000/profile/1234')
+    return superagent.get(`http://localhost:${PORT}/profile/1234`)
       .end((err, res) => {
         expect(res.status).toEqual(500);
         done();
@@ -82,7 +82,7 @@ describe('Profile model and CRUD operation tests', () => {
 
     profile.save()
       .then(data => {
-        superagent.get(`http://localhost:3000/profile/${data._id}`)
+        superagent.get(`http://localhost:${PORT}/profile/${data._id}`)
           .then(res => {
             expect(res.body._id).toBe(`${data._id}`);
             expect(res.body.bio).toEqual(expected.bio);
@@ -108,7 +108,7 @@ describe('Profile model and CRUD operation tests', () => {
       user: userId,
     };
     let id;
-    superagent.post('http://localhost:3000/profile')
+    superagent.post(`http://localhost:${PORT}/profile`)
       .send(coach)
       .then(res => {
         id = res.body._id;
@@ -122,7 +122,7 @@ describe('Profile model and CRUD operation tests', () => {
         email: 'coach@email.com',
       };
 
-      return superagent.put(`http://localhost:3000/profile/${id}`)
+      return superagent.put(`http://localhost:${PORT}/profile/${id}`)
         .send(updatedProfile)
         .then(res => {
           expect(res.body.firstName).toBe('Gabe');
@@ -150,7 +150,7 @@ describe('Profile model and CRUD operation tests', () => {
       let data = new Profile(profile);
       data.save()
         .then(data => {
-          superagent.delete(`http://localhost:3000/profile/${data._id}`)
+          superagent.delete(`http://localhost:${PORT}/profile/${data._id}`)
             .then(res => {
               expect(res.status).toBe(200);
               done();
