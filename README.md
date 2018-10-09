@@ -1,8 +1,42 @@
-# Rugby Scout Server
-Create a web application that will track Rugby stats and players to make information accessible to college recruiters. Create an interface that will allow rugby, teams, coaches and players to upload a profile with stats, videos. 
+# Rugby Scout 
+A web application that will track Rugby stats and players to make information accessible to college recruiters. Create an interface that will allow rugby, teams, coaches and players to upload a profile with stats, videos. 
 
 # About Us
-Created by: Sharon Miller, Connor Crossley, Alex Hanson
+Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](https://github.com/Concross), [Alex Hanson](https://github.com/alexlhanson)
+## Status
+[![Build Status](https://travis-ci.org)](https://travis-ci.org)
+[![Coverage Status](https://)]
+
+## Table of Contents
+<!-- TOC -->
+
+- [Status](#status)
+- [Technologies Used](#technologies-used)
+
+## Technologies Used
+* **[Node.js](https://nodejs.org)**
+
+  * Application dependencies:
+    * [express](https://www.npmjs.com/package/express)
+    * [bcrypt](https://www.npmjs.com/package/bcrypt)
+    * [body-parser](https://www.npmjs.com/package/body-parser)
+    * [cors](https://www.npmjs.com/package/cors)
+    * [debug](https://www.npmjs.com/package/debug)
+    * [dotenv](https://www.npmjs.com/package/dotenv)
+    * [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+    * [http-errors](https://www.npmjs.com/package/http-errors)
+    * [mongoose](https://www.npmjs.com/package/mongoose)
+    * [morgan](https://www.npmjs.com/package/morgan)
+  * Developer dependencies:
+    * [eslint](https://www.npmjs.com/package/eslint)
+    * [superagent](https://www.npmjs.com/package/superagent)
+    * [jest](https://www.npmjs.com/package/jest)
+* **[MongoDB](https://www.mongodb.com)** 
+* **[Mongoose](http://mongoosejs.com/)**
+* **[Heroku](https://www.heroku.com/)**
+* **[TravisCI](https://travis-ci.org/)**
+
+
 
 
 
