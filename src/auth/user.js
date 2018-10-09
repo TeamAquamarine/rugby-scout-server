@@ -11,11 +11,11 @@ const userSchema = new Schema({
   //username is an email address
   username: { type: String, required: true },
   password: { type: String, required: true },
-  coach: { type: Schema.Types.ObjectId, ref: 'coaches'},
+  coach: { type: Schema.Types.ObjectId, ref: 'coaches' },
   player: { type: Schema.Types.ObjectId, ref: 'players' },
-  team: { type: Schema.Types.ObjectId, ref: 'teams'},
-  stats: { type: Schema.Types.ObjectId, ref: 'stats'},
-  role: { type: String, enum: ['coach', 'player']},
+  team: { type: Schema.Types.ObjectId, ref: 'teams' },
+  stats: { type: Schema.Types.ObjectId, ref: 'stats' },
+  role: { type: String, enum: ['coach', 'player'] },
 
 });
 
@@ -25,7 +25,7 @@ userSchema.pre('save', function (next) {
 
 //Does password comparison
 userSchema.statics.authenticate = function (auth) {
-  let userQuery = { username: auth.username};
+  let userQuery = { username: auth.username };
 
   return this.findOne(userQuery)
     .then(user => user && user.comparePassword(auth.password))
@@ -35,15 +35,15 @@ userSchema.statics.authenticate = function (auth) {
 //checks the json web token decrypted with secret against id in db
 userSchema.statics.authorize = function (token) {
   let parsedToken = jwt.verify(token, process.env.SECRET);
-  let query = {_id: parsedToken.id};
+  let query = { _id: parsedToken.id };
 
   return this.findOne(query)
     .then(user => user)
     .catch(console.error);
 };
 //checks the database for the user and creates it if the user is not already in the database
-userSchema.statics.authorize = function (githubUser){
-  if (!githubUser){
+userSchema.statics.createFromOAuth = function (githubUser) {
+  if (!githubUser) {
     return Promise.reject('invalid github user');
   }
 
@@ -51,10 +51,10 @@ userSchema.statics.authorize = function (githubUser){
     username: githubUser.login,
 
   }).then(user => {
-    if(!user) throw new Error('user not found');
+    if (!user) throw new Error('user not found');
     return user;
 
-  }).catch(err =>{
+  }).catch(err => {
     let username = githubUser.login;
     let password = 'none';//oauth passwords are set to none. Password required and oauth uses tokens
 
@@ -84,7 +84,7 @@ userSchema.methods.generateToken = function () {
 //uses bcrypt decryption to compare passwords
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compare(password, this.password)
-    .then(valid => valid? this : null);
+    .then(valid => valid ? this : null);
 };
 
 export default mongoose.model('users', userSchema);

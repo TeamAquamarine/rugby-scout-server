@@ -2,6 +2,7 @@
 
 import express from 'express';
 import modelFinder from '../middleware/modelFinder';
+import auth from '../auth/middleware';
 const router = express.Router();
 
 router.param('model', modelFinder);
@@ -9,7 +10,10 @@ router.param('model', modelFinder);
 /***********************************
 *     POST REQUESTS                *
 ************************************/
-router.post('/:model', (req, res, next) => {
+router.post('/:model', auth, (req, res, next) => {
+
+  req.body.user = req.user._id;
+
   let document = new req.model(req.body);
 
   document.save()
