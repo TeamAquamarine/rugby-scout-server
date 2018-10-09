@@ -2,6 +2,7 @@
 
 import mongoose from 'mongoose';
 import User from '../auth/user';
+import StatBlock from '../models/statBlock';
 
 const Schema = mongoose.Schema;
 
@@ -19,6 +20,8 @@ profileSchema.pre('save', function (next) {
   let profileId = this._id;
   let role = this.role;
   let userId = this.user;
+  let statBlock = new StatBlock({ user: this.user });
+  statBlock.save();
 
   User.findById(userId)
     .then(user => {

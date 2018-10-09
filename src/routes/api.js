@@ -4,6 +4,7 @@ import express from 'express';
 import modelFinder from '../middleware/modelFinder';
 import auth from '../auth/middleware';
 import Team from '../models/team';
+import User from '../auth/user';
 const router = express.Router();
 
 router.param('model', modelFinder);
@@ -45,6 +46,15 @@ router.post('/:model', auth, (req, res, next) => {
 ************************************/
 router.get('/hello', (req, res, next) => {
   res.send('hello world');
+});
+
+router.get('/user/:id', (req, res, next) => {
+  return User.findOne({ _id: req.params.id })
+    .select('-username -password -__v')
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
 });
 
 router.get('/:model/:id', (req, res, next) => {
