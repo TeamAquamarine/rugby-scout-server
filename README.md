@@ -13,6 +13,8 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 - [Technologies Used](#technologies-used)
 - [ERD Diagram](#ERD-Relationships)
 - [Schemas](#schemas)
+- [RESTful API's](#API)
+- [Auth](#Auth)
 
 ## Installation
 1. [Clone Repository](https://github.com/TeamAquamarine/rugby-scout-server)
@@ -212,3 +214,32 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 * `Checkout` local master branch and `fetch` origin master branch.
 * Push local master branch into heroku branch for deployment.
 * Additional features will go into development branch first before being pulled into master and repeating this process
+
+## API
+* **User Model**
+  * _POST_  - **/register** - Saves a new user to user model with hashed password and returns authorization token.
+  * _GET_ - **/signin** - Passes username and password into request, compares to database and returns an authorization token.
+  * _GET_ - **/outh** - Passes through handshaking process with 3rd-party authorization using Github account, saves user to user model and returns an authorization token. 
+  * _GET_ - **/user/:id - Public-facing retrieval request to see an individual user's stats and or profile information, while excluding private parameters.
+* **Team Model**
+  * _POST_ - **/team** - Creates a new team with required `name`, `city` and `state`.  This route is restricted to coach role in user.
+  * _PUT_ - **/team** - Updates the team information according to associated authorized user.  Available to coach role.
+  * _PUT_ - **/team/roster/add/:id** - Updates the team information according to associated authorized user by adding a new player to the players array in team model.  Available to coach role.
+  * _PUT_ - **/team/roster/remove/:id** - Updates the team information according to associated authorized user by removing a player to the players array in team model.  Available to coach role.
+  * _GET_ - **/team/:id** - Public-facing retrieval of information on a specific team id.
+
+* **Profile Model**
+  * _POST_ - **/profile** - Creates a new profile with userId referencing authorized user and requires `firstName`, `lastName`, and `role`.
+  * _PUT_ - **/Profile** - Updates the profile information according to associated authorized user.
+  * _GET_ - **/profile/:id** - Public-facing retrieval of information on a specific profile id. 
+* **StatBlock Model**
+  * _POST_ - **/statBlock** - Creates a new statBlock with userId referencing authorized user.
+  * _PUT_ - **/statBlock** - Updates the statBlock information according to associated authorize user.  Available to coach role.
+  * _GET_ - **/statBlock/:id** - Public-facing retrieval of information on a specific statBlock id.
+
+## Auth
+* For authentication Rugby-Scout supports basic and OAuth authentication.
+* For authorization Rugby-Scout supports bearer authorization using JSON Web Token library.
+* Passwords are hashed before adding to database for local setup.
+* API calls use authorized user for permission and role parameter in the user to further specify permission.
+
