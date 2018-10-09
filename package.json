@@ -13,7 +13,8 @@
       "!**/node_modules/**",
       "!**/coverage/**",
       "!**/index.js",
-      "!**/app.js"
+      "!**/app.js",
+      "!**/oauth.js"
     ]
   },
   "repository": {
