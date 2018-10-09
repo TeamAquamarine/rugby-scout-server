@@ -1,8 +1,115 @@
-# Rugby Scout Server
-Create a web application that will track Rugby stats and players to make information accessible to college recruiters. Create an interface that will allow rugby, teams, coaches and players to upload a profile with stats, videos. 
+# Rugby Scout 
+A web application that will track Rugby stats and players to make information accessible to college recruiters. Create an interface that will allow rugby, teams, coaches and players to upload a profile with stats, videos. 
 
 # About Us
-Created by: Sharon Miller, Connor Crossley, Alex Hanson
+Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](https://github.com/Concross), [Alex Hanson](https://github.com/alexlhanson)
+
+
+## Table of Contents
+<!-- TOC -->
+
+- [Status](#status)
+- [Installation](#installation)
+- [Technologies Used](#technologies-used)
+- [ERD Diagram](#ERD-Relationships)
+- [Schemas](#schemas)
+- [RESTful API's](#API)
+- [Auth](#Auth)
+
+## Installation
+1. [Clone Repository](https://github.com/TeamAquamarine/rugby-scout-server)
+2. npm istall
+3. change sample-env to .env and add your values
+
+## Status
+[![Build Status](https://travis-ci.org)](https://travis-ci.org)
+[![Coverage Status](https://)]
+
+
+
+## Technologies Used
+* **[Node.js](https://nodejs.org)**
+
+  * Application dependencies:
+    * [express](https://www.npmjs.com/package/express)
+    * [bcrypt](https://www.npmjs.com/package/bcrypt)
+    * [babel](https://www.npmjs.com/package/@babel/cli)
+    * [assert](https://github.com/browserify/commonjs-assert)
+    * [cors](https://www.npmjs.com/package/cors)
+    * [dotenv](https://www.npmjs.com/package/dotenv)
+    * [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+    * [require-dir](https://www.npmjs.com/package/http-errors)
+    * [mongoose](https://www.npmjs.com/package/mongoose)
+    * [morgan](https://www.npmjs.com/package/morgan)
+  * Developer dependencies:
+    * [eslint](https://www.npmjs.com/package/eslint)
+    * [superagent](https://www.npmjs.com/package/superagent)
+    * [jest](https://www.npmjs.com/package/jest)
+    * [debug](https://www.npmjs.com/package/debug)
+    
+* **[MongoDB](https://www.mongodb.com)** 
+* **[Mongoose](http://mongoosejs.com/)**
+* **[Heroku](https://www.heroku.com/)**
+* **[TravisCI](https://travis-ci.org/)**
+
+## ERD Relationships
+![](./img/erd-relationship.png)
+
+## Schemas
+**User Schema** 
+```
+{
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  coach: { type: Schema.Types.ObjectId, ref: 'coaches' },
+  player: { type: Schema.Types.ObjectId, ref: 'players' },
+  team: { type: Schema.Types.ObjectId, ref: 'teams' },
+  stats: { type: Schema.Types.ObjectId, ref: 'stats' },
+  role: { type: String, enum: ['coach', 'player'] },
+} 
+```
+**Profile Schema** 
+```
+{
+  user: { type: Schema.Types.ObjectId, ref: 'users' },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  bio: { type: String, default: `Hello!` },
+  email: { type: String },
+} 
+```
+**StatBlock Schema** 
+```
+{
+  user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+  wins: { type: Number, min: 0, default: 0 },
+  losses: { type: Number, min: 0, default: 0 },
+  tries: { type: Number, min: 0, default: 0 },
+  conversions: { type: Number, min: 0, default: 0 },
+  penaltyGoals: { type: Number, min: 0, default: 0 },
+  dropGoals: { type: Number, min: 0, default: 0 },
+  tackles: { type: Number, min: 0, default: 0 },
+  offloads: { type: Number, min: 0, default: 0 },
+  handlingErrors: { type: Number, min: 0, default: 0 },
+  runMeters: { type: Number, min: 0, default: 0 },
+  linebreaks: { type: Number, min: 0, default: 0 },
+  penaltiesConceded: { type: Number, min: 0, default: 0 },
+  yellowCards: { type: Number, min: 0, default: 0 },
+  redCards: { type: Number, min: 0, default: 0 },
+} 
+```
+**Team Schema** 
+```
+{
+  coach: { type: Schema.Types.ObjectId, ref: 'users'},
+  players: [{ type: Schema.Types.ObjectId, ref: 'users'}],
+  name: { type: String, required: true },
+  city: { type: String, required: true },
+  state: { type: String, required: true},
+  phone: { type: String },
+  email: {type: String},
+} 
+```
 
 
 
@@ -107,3 +214,32 @@ Created by: Sharon Miller, Connor Crossley, Alex Hanson
 * `Checkout` local master branch and `fetch` origin master branch.
 * Push local master branch into heroku branch for deployment.
 * Additional features will go into development branch first before being pulled into master and repeating this process
+
+## API
+* **User Model**
+  * _POST_  - **/register** - Saves a new user to user model with hashed password and returns authorization token.
+  * _GET_ - **/signin** - Passes username and password into request, compares to database and returns an authorization token.
+  * _GET_ - **/outh** - Passes through handshaking process with 3rd-party authorization using Github account, saves user to user model and returns an authorization token. 
+  * _GET_ - **/user/:id - Public-facing retrieval request to see an individual user's stats and or profile information, while excluding private parameters.
+* **Team Model**
+  * _POST_ - **/team** - Creates a new team with required `name`, `city` and `state`.  This route is restricted to coach role in user.
+  * _PUT_ - **/team** - Updates the team information according to associated authorized user.  Available to coach role.
+  * _PUT_ - **/team/roster/add/:id** - Updates the team information according to associated authorized user by adding a new player to the players array in team model.  Available to coach role.
+  * _PUT_ - **/team/roster/remove/:id** - Updates the team information according to associated authorized user by removing a player to the players array in team model.  Available to coach role.
+  * _GET_ - **/team/:id** - Public-facing retrieval of information on a specific team id.
+
+* **Profile Model**
+  * _POST_ - **/profile** - Creates a new profile with userId referencing authorized user and requires `firstName`, `lastName`, and `role`.
+  * _PUT_ - **/Profile** - Updates the profile information according to associated authorized user.
+  * _GET_ - **/profile/:id** - Public-facing retrieval of information on a specific profile id. 
+* **StatBlock Model**
+  * _POST_ - **/statBlock** - Creates a new statBlock with userId referencing authorized user.
+  * _PUT_ - **/statBlock** - Updates the statBlock information according to associated authorize user.  Available to coach role.
+  * _GET_ - **/statBlock/:id** - Public-facing retrieval of information on a specific statBlock id.
+
+## Auth
+* For authentication Rugby-Scout supports basic and OAuth authentication.
+* For authorization Rugby-Scout supports bearer authorization using JSON Web Token library.
+* Passwords are hashed before adding to database for local setup.
+* API calls use authorized user for permission and role parameter in the user to further specify permission.
+
