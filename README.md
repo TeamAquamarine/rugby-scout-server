@@ -13,6 +13,7 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 - [Technologies Used](#technologies-used)
 - [ERD Diagram](#ERD-Relationships)
 - [Schemas](#schemas)
+- [HTTP Response Request Cycle](#HTTP-Response-Request-Cycle)
 - [RESTful API's](#API)
 - [Auth](#Auth)
 
@@ -110,8 +111,8 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
   email: {type: String},
 } 
 ```
-
-
+## ERD Relationships
+![](./img/http-res-req.png)
 
 # User Stories
 
@@ -220,7 +221,7 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
   * _POST_  - **/register** - Saves a new user to user model with hashed password and returns authorization token.
   * _GET_ - **/signin** - Passes username and password into request, compares to database and returns an authorization token.
   * _GET_ - **/outh** - Passes through handshaking process with 3rd-party authorization using Github account, saves user to user model and returns an authorization token. 
-  * _GET_ - **/user/:id - Public-facing retrieval request to see an individual user's stats and or profile information, while excluding private parameters.
+  * _GET_ - **/user/:id** - Public-facing retrieval request to see an individual user's stats and or profile information, while excluding private parameters.
 * **Team Model**
   * _POST_ - **/team** - Creates a new team with required `name`, `city` and `state`.  This route is restricted to coach role in user.
   * _PUT_ - **/team** - Updates the team information according to associated authorized user.  Available to coach role.
