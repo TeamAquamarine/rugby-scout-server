@@ -1,22 +1,35 @@
 'use strict';
 
+require('babel-register');
+import app from '../../../src/app';
 import Profile from '../../../src/models/profile';
 import superagent from 'superagent';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import User from '../../../src/auth/user';
 dotenv.config();
 
 describe('Profile model and CRUD operation tests', () => {
 
+  const PORT = 3000;
+  let userId;
   beforeAll(() => {
+    console.log('Starting server for testing');
+    app.start(PORT);
     mongoose.connect(process.env.MONGODB_URI);
+
+    superagent.post(`http://localhost:${PORT}/register`)
+      .send({ username: 'admin', password: 'password' })
+      .then(data => {
+        userId = data._id;
+      });
 
   });
 
   afterAll(done => {
     mongoose.connection.dropCollection('profiles');
     mongoose.disconnect(done);
+    app.stop();
+    console.log('testing server stopped');
   });
 
   /***********************************
@@ -28,6 +41,7 @@ describe('Profile model and CRUD operation tests', () => {
       firstName: 'Zachary',
       lastName: 'Miller',
       email: 'coachzach@coach.com',
+      user: userId,
     };
     return superagent.post('http://localhost:3000/profile')
       .send(postData)
@@ -63,6 +77,7 @@ describe('Profile model and CRUD operation tests', () => {
       firstName: 'Zach',
       lastName: 'Miller',
       email: 'zach@zach.com',
+      user: userId,
     });
 
     profile.save()
@@ -81,8 +96,6 @@ describe('Profile model and CRUD operation tests', () => {
       .catch(done);
   });
 
-
-
   /***********************************
   *    PROFILE PUT CRUD     *
   ************************************/
@@ -92,6 +105,7 @@ describe('Profile model and CRUD operation tests', () => {
       firstName: 'Sharon',
       lastName: 'Miller',
       email: 'sharon@email.com',
+      user: userId,
     };
     let id;
     superagent.post('http://localhost:3000/profile')
@@ -120,7 +134,6 @@ describe('Profile model and CRUD operation tests', () => {
     });
   });
 
-
   /***********************************
    *    PLAYER DELETE CRUD     *
    ************************************/
@@ -132,6 +145,7 @@ describe('Profile model and CRUD operation tests', () => {
         firstName: 'Sharon',
         lastName: 'Miller',
         email: 'sharon@email.com',
+        user: userId,
       };
       let data = new Profile(profile);
       data.save()

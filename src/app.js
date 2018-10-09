@@ -16,26 +16,41 @@ app.use(express.urlencoded({ extended: true }));
 app.use(authRouter);
 app.use(router);
 
-let isRunning = false;
+let server = false;
 
 app.start = (port) => {
-  if (isRunning) {
+  if (server) {
     console.log(`Server already running`);
-
   } else {
-    app.listen(port, err => {
+    server = app.listen(port, err => {
       if (err) { throw err; }
-      isRunning = true;
       console.log(`Server running on port ${port}`);
     });
   }
 };
 
 app.stop = () => {
-  app.close(() => {
+  server.close(() => {
     console.log(`Server has been shut down`);
-    isRunning = false;
   });
 };
 
 module.exports = app;
+
+// module.exports = {
+//   start: (port) => {
+//     if(!server) {
+//       server = app.listen(port, (err) => {
+//         if(err) {throw err;}
+//         console.log('Server running on', port);
+//       });
+//     }else{
+//       console.log('Server already running');
+//     }
+//   },
+//   stop: () => {
+//     server.close(() => {
+//       console.log('Server has been stopped');
+//     });
+//   },
+// };

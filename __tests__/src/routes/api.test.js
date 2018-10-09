@@ -1,11 +1,24 @@
 'use strict';
 
+require('babel-register');
 import app from '../../../src/app';
 import superagent from 'superagent';
 import dotenv from 'dotenv';
 dotenv.config();
 
 describe('API Router', () => {
+
+  const PORT = 3000;
+  beforeAll(() => {
+    console.log('Starting server for testing');
+    app.start(PORT);
+
+  });
+
+  afterAll(() => {
+    app.stop();
+    console.log('testing server stopped');
+  });
 
   test('GET request proof of life', (done) => {
     expect.assertions(1);

@@ -1,5 +1,7 @@
 'use strict';
 
+require('babel-register');
+import app from '../../../src/app';
 import Team from '../../../src/models/team';
 import superagent from 'superagent';
 import mongoose from 'mongoose';
@@ -8,13 +10,19 @@ dotenv.config();
 
 describe('TEAM model CRUD operation tests', () => {
 
+  const PORT = 3000;
   beforeAll(() => {
+    console.log('Starting server for testing');
+    app.start(PORT);
     mongoose.connect(process.env.MONGODB_URI);
+
   });
 
   afterAll(done => {
     mongoose.connection.dropCollection('teams');
     mongoose.disconnect(done);
+    app.stop();
+    console.log('testing server stopped');
   });
 
   /***********************************
