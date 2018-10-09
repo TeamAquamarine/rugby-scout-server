@@ -15,7 +15,7 @@ router.post('/team', auth, (req, res, next) => {
 
   if (req.user.role === 'coach') {
     req.body.coach = req.user._id;
-  } else {throw new Error('only coaches may create teams');}
+  } else { throw new Error('only coaches may create teams'); }
 
   let document = new team(req.body);
 
@@ -59,7 +59,33 @@ router.get('/:model/:id', (req, res, next) => {
 /***********************************
 *     PUT REQUESTS                 *
 ************************************/
-router.put('/:model/', auth,  (req, res, next) => {
+router.put('/team/roster/add/:id', auth, (req, res, next) => {
+  if (req.user.role !== 'coach') { throw new Error('only coaches may create teams'); }
+  let playerId = req.params.id;
+
+  return team.findByIdAndUpdate(req.user.team, { $addToSet: { players: [playerId] } })
+    .then(() => {
+      res.status(200);
+      res.send('player added');
+    })
+    .catch(next);
+
+});
+
+router.put('/team/roster/remove/:id', auth, (req, res, next) => {
+  if (req.user.role !== 'coach') { throw new Error('only coaches may create teams'); }
+  let playerId = req.params.id;
+
+  return team.update({_id: req.user.team}, { $pull: { players: playerId} })
+    .then(() => {
+      res.status(200);
+      res.send('player deleted');
+    })
+    .catch(next);
+
+});
+
+router.put('/:model/', auth, (req, res, next) => {
 
   return req.model.findOneAndUpdate(req.user._id, req.body, { new: true })
     .then(data => {
