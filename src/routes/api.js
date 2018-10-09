@@ -3,6 +3,7 @@
 import express from 'express';
 import modelFinder from '../middleware/modelFinder';
 import auth from '../auth/middleware';
+import team from '../models/team';
 const router = express.Router();
 
 router.param('model', modelFinder);
@@ -10,6 +11,22 @@ router.param('model', modelFinder);
 /***********************************
 *     POST REQUESTS                *
 ************************************/
+router.post('/team', auth, (req, res, next) => {
+
+  if (req.user.role === 'coach') {
+    req.body.coach = req.user._id;
+  } else {throw new Error('only coaches may create teams');}
+
+  let document = new team(req.body);
+
+  document.save()
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
+
+});
+
 router.post('/:model', auth, (req, res, next) => {
 
   req.body.user = req.user._id;

@@ -16,21 +16,12 @@ const teamSchema = Schema({
   email: {type: String},
 });
 
-teamSchema.pre('save', function (req, next) {
+teamSchema.pre('save', function (next) {
+  console.log(this._id);
+  Users.findByIdAndUpdate(this.coach, {team: this._id})
+    .then(Promise.resolve(next()))
+    .catch(err => Promise.reject(err));
 
-  Users.findById(req.body.user)
-    .then(user => {
-      if (!user) {
-        return Promise.reject('user not found');
-      }
-      else if (user.role === 'coach'){
-        return Promise.resolve(this.coach = req.body.user);
-      } else {
-        return Promise.resolve(this.players.push(req.body.user));
-      }
-    })
-    .then(next())
-    .catch(next);
 });
 
 export default mongoose.model('teams', teamSchema);
