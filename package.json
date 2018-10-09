@@ -4,6 +4,7 @@
   "description": "Rugby Scout server-side application",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "jest --coverage",
     "watch": "DEBUG=express:router nodemon index.js"
   },
