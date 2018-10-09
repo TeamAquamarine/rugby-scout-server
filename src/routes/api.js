@@ -69,6 +69,32 @@ router.get('/:model/:id', (req, res, next) => {
 /***********************************
 *     PUT REQUESTS                 *
 ************************************/
+router.put('/team/roster/add/:id', auth, (req, res, next) => {
+  if (req.user.role !== 'coach') { throw new Error('only coaches may add to team roster'); }
+  let playerId = req.params.id;
+
+  return Team.findByIdAndUpdate(req.user.team, { $addToSet: { players: [playerId] } })
+    .then(() => {
+      res.status(200);
+      res.send('player added');
+    })
+    .catch(next);
+
+});
+
+router.put('/team/roster/remove/:id', auth, (req, res, next) => {
+  if (req.user.role !== 'coach') { throw new Error('only coaches may delete from team roster'); }
+  let playerId = req.params.id;
+
+  return Team.update({_id: req.user.team}, { $pull: { players: playerId} })
+    .then(() => {
+      res.status(200);
+      res.send('player deleted');
+    })
+    .catch(next);
+
+});
+
 router.put('/:model/', auth, (req, res, next) => {
 
   return req.model.findOneAndUpdate(req.user._id, req.body, { new: true })
