@@ -40,6 +40,9 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 * **[Heroku](https://www.heroku.com/)**
 * **[TravisCI](https://travis-ci.org/)**
 
+## ERD Relationships
+![](./img/erd-relationship.png)
+
 ## Schemas
 **User Schema** 
 ```
