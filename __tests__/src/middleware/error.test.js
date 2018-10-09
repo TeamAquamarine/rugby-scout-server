@@ -34,4 +34,16 @@ describe('error.js Tests', () => {
 
     expect(res.statusCode).toBe(500);
   });
+
+  test('Should respond with an error message', () => {
+    errorWare(errorString, req, res, next);
+
+    expect(res.statusMessage).toBeDefined();
+  });
+
+  test('Should send an error back on the res.body', () => {
+    errorWare(errorString, req, res, next);
+
+    expect(res.body).toBeDefined();
+  });
 });
