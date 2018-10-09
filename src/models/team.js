@@ -17,7 +17,6 @@ const teamSchema = Schema({
 });
 
 teamSchema.pre('save', function (next) {
-  console.log(this._id);
   Users.findByIdAndUpdate(this.coach, {team: this._id})
     .then(Promise.resolve(next()))
     .catch(err => Promise.reject(err));

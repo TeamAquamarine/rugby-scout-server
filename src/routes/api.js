@@ -59,8 +59,9 @@ router.get('/:model/:id', (req, res, next) => {
 /***********************************
 *     PUT REQUESTS                 *
 ************************************/
-router.put('/:model/:id', (req, res, next) => {
-  return req.model.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+router.put('/:model/', auth,  (req, res, next) => {
+
+  return req.model.findOneAndUpdate(req.user._id, req.body, { new: true })
     .then(data => {
       res.send(data);
     })

@@ -1,6 +1,7 @@
 'use strict';
 
 import mongoose from 'mongoose';
+import Users from '../auth/user';
 
 const Schema = mongoose.Schema;
 
@@ -21,6 +22,13 @@ const statBlockSchema = new Schema({
   penaltiesConceded: { type: Number, min: 0, default: 0 },
   yellowCards: { type: Number, min: 0, default: 0 },
   redCards: { type: Number, min: 0, default: 0 },
+
+});
+
+statBlockSchema.pre('save', function (next) {
+  Users.findByIdAndUpdate(this.user, {stats: this._id})
+    .then(Promise.resolve(next()))
+    .catch(err => Promise.reject(err));
 
 });
 
