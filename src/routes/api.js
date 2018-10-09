@@ -50,6 +50,7 @@ router.get('/hello', (req, res, next) => {
 
 router.get('/user/:id', (req, res, next) => {
   return User.findOne({ _id: req.params.id })
+    .select('-username -password -__v')
     .then(data => {
       res.send(data);
     })

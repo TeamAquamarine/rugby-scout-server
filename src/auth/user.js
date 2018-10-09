@@ -11,8 +11,8 @@ const userSchema = new Schema({
   //username is an email address
   username: { type: String, required: true },
   password: { type: String, required: true },
-  coach: { type: Schema.Types.ObjectId, ref: 'coaches' },
-  player: { type: Schema.Types.ObjectId, ref: 'players' },
+  coach: { type: Schema.Types.ObjectId, ref: 'profiles' },
+  player: { type: Schema.Types.ObjectId, ref: 'profiles' },
   team: { type: Schema.Types.ObjectId, ref: 'teams' },
   stats: { type: Schema.Types.ObjectId, ref: 'stats' },
   role: { type: String, enum: ['coach', 'player'] },
@@ -21,6 +21,14 @@ const userSchema = new Schema({
 
 userSchema.pre('save', function (next) {
   this.hashPassword(5, next);
+});
+
+userSchema.pre('findOne', function (next) {
+  this.populate('stats', '-__v');
+  this.populate('coach', '-user -__v');
+  this.populate('player');
+
+  next();
 });
 
 //Does password comparison
