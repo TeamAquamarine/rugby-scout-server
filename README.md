@@ -124,16 +124,27 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 [Return to top](#table-of-contents)
 
 ## Model Finder
-```export default (req, res, next) => {
+```
+import requireAll from 'require-dir';
+
+// Find all exported models in the model directory
+// require-dir documentation: https://github.com/aseemk/requireDir#usage
+const models = requireAll('../models/');
+
+// Export middleware
+export default (req, res, next) => {
+  
+  // Save reference to model parameter from api request 
   let model = req && req.params && req.params.model;
 
+  // check if model exists in server and attach model constructor to request
   if (model && models[model] && models[model].default) {
     req.model = models[model].default;
     next();
   } else {
     throw new Error('modelFinder Error: Model Not Found');
   }
-}; 
+};
 ```
 [Return to top](#table-of-contents)
 
