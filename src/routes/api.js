@@ -16,7 +16,10 @@ router.post('/team', auth, (req, res, next) => {
 
   if (req.user.role === 'coach') {
     req.body.coach = req.user._id;
-  } else { throw new Error('only coaches may create teams'); }
+  } else {
+    res.status(401);
+    res.send('only coaches may create teams');
+  }
 
   let document = new Team(req.body);
 
@@ -86,7 +89,7 @@ router.put('/team/roster/remove/:id', auth, (req, res, next) => {
   if (req.user.role !== 'coach') { throw new Error('only coaches may delete from team roster'); }
   let playerId = req.params.id;
 
-  return Team.update({_id: req.user.team}, { $pull: { players: playerId} })
+  return Team.update({ _id: req.user.team }, { $pull: { players: playerId } })
     .then(() => {
       res.status(200);
       res.send('player deleted');
@@ -95,13 +98,14 @@ router.put('/team/roster/remove/:id', auth, (req, res, next) => {
 
 });
 
-router.put('/:model/', auth, (req, res, next) => {
+router.put('/:model', auth, (req, res, next) => {
 
-  return req.model.findOneAndUpdate(req.user._id, req.body, { new: true })
+  return req.model.findOneAndUpdate(req.user[req.params.model], req.body, { new: true })
     .then(data => {
       res.send(data);
     })
     .catch(next);
+
 });
 
 /***********************************
