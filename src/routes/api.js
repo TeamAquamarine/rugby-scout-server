@@ -13,10 +13,14 @@ router.param('model', modelFinder);
 *     POST REQUESTS                *
 ************************************/
 router.post('/team', auth, (req, res, next) => {
+  console.log('getting here');
 
   if (req.user.role === 'coach') {
     req.body.coach = req.user._id;
-  } else { throw new Error('only coaches may create teams'); }
+  } else { 
+    res.status(401);
+    res.send('only coaches may create teams'); 
+  }
 
   let document = new Team(req.body);
 
