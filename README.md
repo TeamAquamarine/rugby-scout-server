@@ -56,7 +56,7 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 [Return to top](#table-of-contents)
 
 ## Entity Relationship Diagram
-![](./img/erd-relationship.png)
+![](./img/erd.png)
 
 [Return to top](#table-of-contents)
 
