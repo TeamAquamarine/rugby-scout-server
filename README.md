@@ -14,14 +14,14 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 - [Entity Relationship Diagram](#entity-relationship-diagram)
 - [Schemas](#schemas)
 - [HTTP Request Response Cycle](#http-request-response-cycle)
-- [Model](#model-finder-snippet)
+- [Model Finder](#model-finder)
 - [RESTful API's](#api)
 - [Auth](#auth)
 - [User Stories](#user-stories)
 
 
 ## Travis CI Build Status
-[![Build Status](https://travis-ci.com/TeamAquamarine/rugby-scout-server.svg?branch=master)](https://travis-ci.org)
+[![Build Status](https://travis-ci.com/TeamAquamarine/rugby-scout-server.svg?branch=master)](https://travis-ci.com/TeamAquamarine/rugby-scout-server/builds/)
 
 ## Installation
 1. [Clone Repository](https://github.com/TeamAquamarine/rugby-scout-server)
