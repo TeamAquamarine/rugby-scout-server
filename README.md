@@ -13,7 +13,7 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 - [Technologies Used](#technologies-used)
 - [Entity Relationship Diagram](#entity-relationship-diagram)
 - [Schemas](#schemas)
-- [HTTP Request Respone Cycle](#http-request-response-cycle)
+- [HTTP Request Response Cycle](#http-request-response-cycle)
 - [Model](#model-finder-snippet)
 - [RESTful API's](#api)
 - [Auth](#auth)
