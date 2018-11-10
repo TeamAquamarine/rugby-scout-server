@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.param('model', modelFinder);
 
+const baseURL = '/api/v1';
+
 /***********************************
 *     POST REQUESTS                *
 ************************************/
@@ -48,11 +50,11 @@ router.post('/:model', auth, (req, res, next) => {
 /***********************************
 *     GET REQUESTS                 *
 ************************************/
-router.get('/hello', (req, res, next) => {
+router.get(`${baseURL}/hello`, (req, res, next) => {
   res.send('hello world');
 });
 
-router.get('/user/:id', (req, res, next) => {
+router.get(`${baseURL}/user/:id`, (req, res, next) => {
   return User.findOne({ _id: req.params.id })
     .select('-username -password -__v')
     .then(data => {
