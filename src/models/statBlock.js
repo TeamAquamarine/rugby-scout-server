@@ -26,10 +26,9 @@ const statBlockSchema = new Schema({
 });
 
 statBlockSchema.pre('save', function (next) {
-  Users.findByIdAndUpdate(this.user, {stats: this._id})
+  Users.findByIdAndUpdate(this.user, { stats: this._id })
     .then(Promise.resolve(next()))
     .catch(err => Promise.reject(err));
-
 });
 
 export default mongoose.model('stats', statBlockSchema);
