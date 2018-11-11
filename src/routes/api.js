@@ -125,7 +125,7 @@ router.put('/team/roster/remove/:id', auth, (req, res, next) => {
 
 });
 
-router.put('/:model', auth, (req, res, next) => {
+router.put(`${baseURL}/:model`, auth, (req, res, next) => {
 
   return req.model.findOneAndUpdate(req.user[req.params.model], req.body, { new: true })
     .then(data => {
@@ -138,7 +138,7 @@ router.put('/:model', auth, (req, res, next) => {
 /***********************************
 *     DELETE REQUESTS              *
 ************************************/
-router.delete('/:model/:id', (req, res, next) => {
+router.delete(`${baseURL}/:model/:id`, (req, res, next) => {
   return req.model.findByIdAndDelete({ _id: req.params.id })
     .then(data => {
       res.status(200).send(data);
