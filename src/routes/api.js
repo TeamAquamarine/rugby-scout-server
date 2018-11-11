@@ -9,10 +9,12 @@ const router = express.Router();
 
 router.param('model', modelFinder);
 
+const baseURL = '/api/v1';
+
 /***********************************
 *     POST REQUESTS                *
 ************************************/
-router.post('/team', auth, (req, res, next) => {
+router.post(`${baseURL}/team`, auth, (req, res, next) => {
 
   if (req.user.role === 'coach') {
     req.body.coach = req.user._id;
@@ -32,7 +34,7 @@ router.post('/team', auth, (req, res, next) => {
 
 });
 
-router.post('/:model', auth, (req, res, next) => {
+router.post(`${baseURL}/:model`, auth, (req, res, next) => {
 
   req.body.user = req.user._id;
 
@@ -48,11 +50,21 @@ router.post('/:model', auth, (req, res, next) => {
 /***********************************
 *     GET REQUESTS                 *
 ************************************/
-router.get('/hello', (req, res, next) => {
+router.get(`${baseURL}/hello`, (req, res, next) => {
   res.send('hello world');
 });
 
-router.get('/user/:id', (req, res, next) => {
+// TODO (connor): return 10 profiles based on sorted statblocks
+router.get(`${baseURL}/topten/:model/:field`, (req, res, next) => {
+  return req.model.find()
+    .then(data => {
+      console.log(data);
+      res.send(data);
+    })
+    .catch(next);
+});
+
+router.get(`${baseURL}/user/:id`, (req, res, next) => {
   return User.findOne({ _id: req.params.id })
     .select('-username -password -__v')
     .then(data => {
@@ -61,7 +73,7 @@ router.get('/user/:id', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/:model/:id', (req, res, next) => {
+router.get(`${baseURL}/:model/:id`, (req, res, next) => {
   return req.model.findOne({ _id: req.params.id })
     .then(data => {
       res.send(data);
@@ -69,6 +81,13 @@ router.get('/:model/:id', (req, res, next) => {
     .catch(next);
 });
 
+router.get(`${baseURL}/:model`, (req, res, next) => {
+  return req.model.find()
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
+});
 
 /***********************************
 *     PUT REQUESTS                 *
@@ -106,7 +125,7 @@ router.put('/team/roster/remove/:id', auth, (req, res, next) => {
 
 });
 
-router.put('/:model', auth, (req, res, next) => {
+router.put(`${baseURL}/:model`, auth, (req, res, next) => {
 
   return req.model.findOneAndUpdate(req.user[req.params.model], req.body, { new: true })
     .then(data => {
@@ -119,7 +138,7 @@ router.put('/:model', auth, (req, res, next) => {
 /***********************************
 *     DELETE REQUESTS              *
 ************************************/
-router.delete('/:model/:id', (req, res, next) => {
+router.delete(`${baseURL}/:model/:id`, (req, res, next) => {
   return req.model.findByIdAndDelete({ _id: req.params.id })
     .then(data => {
       res.status(200).send(data);
