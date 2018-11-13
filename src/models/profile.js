@@ -17,13 +17,13 @@ const profileSchema = Schema({
 });
 
 profileSchema.pre('save', function (next) {
-  let profileId = this._id;
+  let profile = this._id;
   let role = this.role;
-  let userId = this.user;
-  let statBlock = new StatBlock({ user: this.user });
+  let user = this.user;
+  let statBlock = new StatBlock({ user, profile });
   statBlock.save();
 
-  User.findById(userId)
+  User.findById(user)
     .then(user => {
       if (!user) {
         return Promise.reject('Sorry, unable to assign a profile to an invalid user');
@@ -33,9 +33,9 @@ profileSchema.pre('save', function (next) {
         if (role === 'coach') {
 
           User.findByIdAndUpdate(
-            userId,
+            user,
             {
-              coach: profileId,
+              coach: profile,
               role: 'coach',
             }
           )
@@ -45,9 +45,9 @@ profileSchema.pre('save', function (next) {
         } else if (role === 'player') {
 
           User.findByIdAndUpdate(
-            userId,
+            user,
             {
-              player: profileId,
+              player: profile,
               role: 'player',
             }
           )

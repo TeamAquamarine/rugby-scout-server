@@ -12,6 +12,7 @@ authRouter.post('/register', (req, res, next) => {
   user.save()
     .then(user => {
       res.send(user.generateToken());
+      res.redirect(process.env.REDIRECT_CLIENT_URI);
     })
     .catch(next);
 });

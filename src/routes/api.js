@@ -59,9 +59,10 @@ router.get(`${baseURL}/:model/topten/:field`, (req, res, next) => {
   const { field } = req.params;
 
   return req.model.find()
-    .select(`user ${field}`)
-    .sort({ [field]: 1 })
+    .sort({ [field]: -1 })
     .limit(10)
+    .populate('profile')
+    .select(`profile ${field}`)
     .then(data => {
       console.log(data);
       res.send(data);
