@@ -16,15 +16,14 @@ authRouter.post('/register', (req, res, next) => {
     .catch(next);
 });
 
-authRouter.get('/signin', auth, (req, res, next) => {
-  res.cookie('token', req.token);
+authRouter.get('/login', auth, (req, res, next) => {
   res.send(req.token);
 });
 
 authRouter.get('/oauth', (req, res, next) => {
   authorize(req)
     .then(token => {
-      res.body = token;
+      res.cookie('token', token);
       res.redirect(process.env.REDIRECT_CLIENT_URI);
     })
     .catch(err => console.error(err));
