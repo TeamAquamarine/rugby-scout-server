@@ -78,6 +78,15 @@ router.get(`${baseURL}/user/:id`, (req, res, next) => {
     .catch(next);
 });
 
+router.get(`${baseURL}/:model/all/:role`, (req, res, next) => {
+  return req.model.find()
+    .where({ role: req.params.role })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
+});
+
 router.get(`${baseURL}/:model/:id`, (req, res, next) => {
   return req.model.findOne({ _id: req.params.id })
     .then(data => {
@@ -86,13 +95,6 @@ router.get(`${baseURL}/:model/:id`, (req, res, next) => {
     .catch(next);
 });
 
-router.get(`${baseURL}/:model`, (req, res, next) => {
-  return req.model.find()
-    .then(data => {
-      res.send(data);
-    })
-    .catch(next);
-});
 
 /***********************************
 *     PUT REQUESTS                 *
