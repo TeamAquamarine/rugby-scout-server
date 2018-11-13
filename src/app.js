@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import router from '../src/routes/api';
 import authRouter from './auth/authRouter';
 import modelFinder from './middleware/modelFinder';
+import seeder from './seed';
 
 let app = express();
 
@@ -26,6 +27,7 @@ app.start = (port) => {
     app.listen(port, err => {
       if (err) { throw err; }
       isRunning = true;
+      seeder.seedMongo(20);
       console.log(`Server running on port ${port}`);
     });
   }

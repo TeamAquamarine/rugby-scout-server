@@ -1,7 +1,6 @@
 import faker from 'faker';
 import User from './auth/user';
 import Profile from './models/profile';
-import StatBlock from './models/statBlock';
 
 const seeder = {};
 
@@ -43,7 +42,6 @@ seeder.seedProfiles = function (userIds) {
 seeder.seedMongo = function (count) {
   const users = this.seedUsers(count);
   this.seedProfiles(users);
-  this.seedStats(users);
 };
 
 module.exports = seeder;
