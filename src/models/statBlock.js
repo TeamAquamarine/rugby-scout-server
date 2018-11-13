@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
 const statBlockSchema = new Schema({
 
   user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+  profile: { type: Schema.Types.ObjectId, ref: 'profiles', required: true },
   wins: { type: Number, min: 0, default: 0 },
   losses: { type: Number, min: 0, default: 0 },
   tries: { type: Number, min: 0, default: 0 },
