@@ -1,6 +1,6 @@
 'use strict';
 
-import mongoose, { models, SchemaType } from 'mongoose';
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
@@ -50,20 +50,20 @@ userSchema.statics.authorize = function (token) {
     .catch(console.error);
 };
 //checks the database for the user and creates it if the user is not already in the database
-userSchema.statics.createFromOAuth = function (githubUser) {
-  if (!githubUser) {
-    return Promise.reject('invalid github user');
+userSchema.statics.createFromOAuth = function (googleUser) {
+  if (!googleUser) {
+    return Promise.reject('invalid google user');
   }
 
   return this.findOne({
-    username: githubUser.login,
+    username: googleUser.login,
 
   }).then(user => {
     if (!user) throw new Error('user not found');
     return user;
 
   }).catch(err => {
-    let username = githubUser.login;
+    let username = googleUser.login;
     let password = 'none';//oauth passwords are set to none. Password required and oauth uses tokens
 
     return this.create({

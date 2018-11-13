@@ -3,7 +3,7 @@
 import User from './user';
 import express from 'express';
 import auth from './middleware';
-import oauth from './lib/oauth';
+import authorize from './lib/oauth';
 
 const authRouter = express.Router();
 
@@ -22,7 +22,7 @@ authRouter.get('/signin', auth, (req, res, next) => {
 });
 
 authRouter.get('/oauth', (req, res, next) => {
-  oauth.authorize(req)
+  authorize(req)
     .then(token => {
       res.cookie('token', token);
       res.send(req.token);
