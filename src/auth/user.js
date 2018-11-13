@@ -56,19 +56,19 @@ userSchema.statics.createFromOAuth = function (googleUser) {
   }
 
   return this.findOne({
-    username: googleUser.login,
+    email: googleUser.email,
 
   }).then(user => {
     if (!user) throw new Error('user not found');
     return user;
 
   }).catch(err => {
-    let username = googleUser.login;
+    let email = googleUser.email;
     let password = 'none';//oauth passwords are set to none. Password required and oauth uses tokens
 
     return this.create({
-      username: username,
-      password: password,
+      email,
+      password,
     });
   });
 };
