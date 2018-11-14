@@ -33,7 +33,7 @@ userSchema.pre('findOne', function (next) {
 
 //Does password comparison
 userSchema.statics.authenticate = function (auth) {
-  let userQuery = { username: auth.username };
+  let userQuery = { email: auth.email };
 
   return this.findOne(userQuery)
     .then(user => user && user.comparePassword(auth.password))
