@@ -10,7 +10,7 @@ seeder.seedUsers = function (count) {
 
   while (i < count) {
     let dummy = {
-      username: faker.internet.email(),
+      email: faker.internet.email(),
       password: 'password',
     };
 
