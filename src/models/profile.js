@@ -13,6 +13,7 @@ const profileSchema = Schema({
   bio: { type: String, default: `Hello!` },
   email: { type: String },
   role: { type: String },
+  imageSrc: { type: String },
 
 });
 

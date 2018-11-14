@@ -30,7 +30,7 @@ app.start = (port) => {
     app.listen(port, err => {
       if (err) { throw err; }
       isRunning = true;
-      seeder.seedMongo(20);
+      // seeder.seedMongo(20);
       console.log(`Server running on port ${port}`);
     });
   }
