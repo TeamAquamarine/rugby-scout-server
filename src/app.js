@@ -11,9 +11,9 @@ import seeder from './seed';
 
 let app = express();
 let corsOptions = {
-  'origin': '*',
-  'credentials': true,
-  'optionsSuccessStatus': 200,
+  origin: ['http://localhost:8080', 'https://happy-franklin-03cd80.netlify.com/', 'https://git.heroku.com/rugby-scout.git'],
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 app.use(morgan('dev'));
