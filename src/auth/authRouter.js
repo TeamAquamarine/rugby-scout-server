@@ -4,11 +4,10 @@ import User from './user';
 import express from 'express';
 import auth from './middleware';
 import authorize from './lib/oauth';
-import cors from 'cors';
 
 const authRouter = express.Router();
 
-authRouter.post('/register', cors(), (req, res, next) => {
+authRouter.post('/register', (req, res, next) => {
   let user = new User(req.body);
   user.save()
     .then(user => {

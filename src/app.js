@@ -10,11 +10,12 @@ import modelFinder from './middleware/modelFinder';
 import seeder from './seed';
 
 let app = express();
-
-app.use(cors({
-  origin: ['http://localhost:8080', 'https://happy-franklin-03cd80.netlify.com/'],
-  credentials: true,
-}));
+let corsOptions = {
+  'origin': '*',
+  'credentials': true,
+  'optionsSuccessStatus': 200,
+};
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
