@@ -12,7 +12,7 @@ import seeder from './seed';
 let app = express();
 
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: ['http://localhost:8080', 'https://happy-franklin-03cd80.netlify.com/'],
   credentials: true,
 }));
 app.use(morgan('dev'));
