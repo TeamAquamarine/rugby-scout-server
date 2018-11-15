@@ -10,6 +10,7 @@ const profileSchema = Schema({
   user: { type: Schema.Types.ObjectId, ref: 'users' },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
+  position: { type: String },
   bio: { type: String, default: `Hello!` },
   email: { type: String },
   role: { type: String },
