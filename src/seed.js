@@ -41,7 +41,7 @@ seeder.seedProfiles = function (userIds) {
 
 seeder.seedMongo = function (count) {
   const users = this.seedUsers(count);
-  this.seedProfiles(users);
+  // this.seedProfiles(users);
 };
 
 module.exports = seeder;

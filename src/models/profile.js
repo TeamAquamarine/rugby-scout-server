@@ -8,12 +8,13 @@ const Schema = mongoose.Schema;
 
 const profileSchema = Schema({
   user: { type: Schema.Types.ObjectId, ref: 'users' },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String },
+  lastName: { type: String },
+  position: { type: String, default: 'N/A' },
   bio: { type: String, default: `Hello!` },
-  email: { type: String },
-  role: { type: String },
-  imageSrc: { type: String },
+  email: { type: String, default: '' },
+  role: { type: String, default: 'player' },
+  imageSrc: { type: String, default: 'https://s3.amazonaws.com/rugbyscout-two/defaultimage.png' },
 
 });
 
@@ -30,34 +31,19 @@ profileSchema.pre('save', function (next) {
         return Promise.reject('Sorry, unable to assign a profile to an invalid user');
 
       } else {
-
-        if (role === 'coach') {
-
-          User.findByIdAndUpdate(
-            user,
-            {
-              coach: profile,
-              role: 'coach',
-            }
-          )
-            .then(Promise.resolve())
-            .catch(err => Promise.reject(err));
-
-        } else if (role === 'player') {
-
-          User.findByIdAndUpdate(
-            user,
-            {
-              player: profile,
-              role: 'player',
-            }
-          )
-            .then(Promise.resolve())
-            .catch(err => Promise.reject(err));
-        }
+        User.findByIdAndUpdate(
+          user,
+          {
+            profile,
+            role,
+          }
+        )
+          .then(Promise.resolve())
+          .catch(err => Promise.reject(err));
       }
     })
     .then(next())
     .catch(next);
 });
+
 export default mongoose.model('profiles', profileSchema);

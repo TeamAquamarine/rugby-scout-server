@@ -3,8 +3,10 @@
 import express from 'express';
 import modelFinder from '../middleware/modelFinder';
 import auth from '../auth/middleware';
+import Profile from '../models/profile';
 import Team from '../models/team';
 import User from '../auth/user';
+import StatBlock from '../models/statBlock';
 const router = express.Router();
 
 router.param('model', modelFinder);
@@ -50,11 +52,28 @@ router.post(`${baseURL}/:model`, auth, (req, res, next) => {
 /***********************************
 *     GET REQUESTS                 *
 ************************************/
-router.get(`${baseURL}/hello`, (req, res, next) => {
+router.get(`${baseURL}/hello`, auth, (req, res, next) => {
+  console.log('IN BAD ROUTE');
+
   res.send('hello world');
 });
 
-// TODO (connor): return 10 profiles based on sorted statblocks
+router.get(`${baseURL}/myprofile`, auth, (req, res, next) => {
+  let data = {};
+  return Profile.findOne({ user: req.user._id })
+    .then(profile => {
+      data.profile = profile;
+
+      return StatBlock.findOne({user: req.user._id })
+        .then(stats => {
+          data.stats = stats;
+          res.send(data);
+        });
+
+    })
+    .catch(next);
+});
+
 router.get(`${baseURL}/:model/topten/:field`, (req, res, next) => {
   const { field } = req.params;
 
@@ -135,10 +154,14 @@ router.put('/team/roster/remove/:id', auth, (req, res, next) => {
 
 router.put(`${baseURL}/:model`, auth, (req, res, next) => {
   const field = req.params.model === 'statBlock' ? 'stats' : req.params.model;
-  console.log(req.user[field]);
 
   return req.model.findOneAndUpdate({ _id: req.user[field]._id }, req.body, { new: true })
     .then(data => {
+      if (data.role) {
+        User.findByIdAndUpdate(data.user, { role: data.role }, { new: true })
+          .then(next())
+          .catch(next);
+      }
       res.send(data);
     })
     .catch(next);
