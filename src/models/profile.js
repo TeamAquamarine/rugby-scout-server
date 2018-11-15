@@ -45,4 +45,5 @@ profileSchema.pre('save', function (next) {
     .then(next())
     .catch(next);
 });
+
 export default mongoose.model('profiles', profileSchema);

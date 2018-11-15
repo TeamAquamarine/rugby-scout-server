@@ -14,7 +14,7 @@ const userSchema = new Schema({
   profile: { type: Schema.Types.ObjectId, ref: 'profiles' },
   team: { type: Schema.Types.ObjectId, ref: 'teams' },
   stats: { type: Schema.Types.ObjectId, ref: 'stats' },
-  role: { type: String, enum: ['coach', 'player'] },
+  role: { type: String, enum: ['coach', 'player'], default: 'player' },
 
 });
 

@@ -81,7 +81,7 @@ router.get(`${baseURL}/user/:id`, (req, res, next) => {
 });
 
 router.get('${baseURL}/profile/me', auth, (req, res, next) => {
-  return Profile.findOne({ user: req.user._id})
+  return Profile.findOne({ user: req.user._id })
     .then(data => {
       res.send(data);
     })
@@ -144,10 +144,15 @@ router.put('/team/roster/remove/:id', auth, (req, res, next) => {
 
 router.put(`${baseURL}/:model`, auth, (req, res, next) => {
   const field = req.params.model === 'statBlock' ? 'stats' : req.params.model;
-  console.log(req.user[field]);
 
   return req.model.findOneAndUpdate({ _id: req.user[field]._id }, req.body, { new: true })
     .then(data => {
+      console.log(data);
+      if (data.role) {
+        User.findByIdAndUpdate(data.user, { role: data.role }, { new: true })
+          .then(next())
+          .catch(next);
+      }
       res.send(data);
     })
     .catch(next);
