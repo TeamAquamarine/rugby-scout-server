@@ -13,7 +13,7 @@ const profileSchema = Schema({
   position: { type: String, default: 'N/A' },
   bio: { type: String, default: `Hello!` },
   email: { type: String, default: '' },
-  role: { type: String, default: '' },
+  role: { type: String, default: 'player' },
   imageSrc: { type: String, default: 'https://s3.amazonaws.com/rugbyscout-two/defaultimage.png' },
 
 });
