@@ -51,11 +51,20 @@ router.post(`${baseURL}/:model`, auth, (req, res, next) => {
 /***********************************
 *     GET REQUESTS                 *
 ************************************/
-router.get(`${baseURL}/hello`, (req, res, next) => {
+router.get(`${baseURL}/hello`, auth, (req, res, next) => {
+  console.log('IN BAD ROUTE');
+
   res.send('hello world');
 });
 
-// TODO (connor): return 10 profiles based on sorted statblocks
+router.get(`${baseURL}/myprofile`, auth, (req, res, next) => {
+  return Profile.findOne({ user: req.user._id })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
+});
+
 router.get(`${baseURL}/:model/topten/:field`, (req, res, next) => {
   const { field } = req.params;
 
@@ -74,14 +83,6 @@ router.get(`${baseURL}/:model/topten/:field`, (req, res, next) => {
 router.get(`${baseURL}/user/:id`, (req, res, next) => {
   return User.findOne({ _id: req.params.id })
     .select('-username -password -__v')
-    .then(data => {
-      res.send(data);
-    })
-    .catch(next);
-});
-
-router.get('${baseURL}/profile/me', auth, (req, res, next) => {
-  return Profile.findOne({ user: req.user._id })
     .then(data => {
       res.send(data);
     })
