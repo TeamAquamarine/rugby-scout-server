@@ -3,6 +3,7 @@
 import express from 'express';
 import modelFinder from '../middleware/modelFinder';
 import auth from '../auth/middleware';
+import Profile from '../models/profile';
 import Team from '../models/team';
 import User from '../auth/user';
 const router = express.Router();
@@ -73,6 +74,14 @@ router.get(`${baseURL}/:model/topten/:field`, (req, res, next) => {
 router.get(`${baseURL}/user/:id`, (req, res, next) => {
   return User.findOne({ _id: req.params.id })
     .select('-username -password -__v')
+    .then(data => {
+      res.send(data);
+    })
+    .catch(next);
+});
+
+router.get('${baseURL}/profile/me', auth, (req, res, next) => {
+  return Profile.findOne({ user: req.user._id})
     .then(data => {
       res.send(data);
     })

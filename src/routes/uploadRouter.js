@@ -6,9 +6,9 @@ const uploadRouter = express.Router();
 import multer from 'multer';
 const upload = multer({ dest: `${__dirname}/../../tmp` });
 
-
 import auth from '../auth/middleware';
 import s3 from '../auth/lib/s3';
+import Profile from '../models/profile';
 
 uploadRouter.post('/upload', auth, upload.any(), (req, res, next) => {
   if (!req.files.length) {
@@ -20,9 +20,11 @@ uploadRouter.post('/upload', auth, upload.any(), (req, res, next) => {
 
   s3.upload(file.path, key)
     .then(url => {
-      console.log('in s3.upload callback', url);
-      res.status(200);
-      res.send({ url: url });
+      Profile.findOneAndUpdate({ user: req.user._id }, { imageSrc: url }, { new: true })
+        .then(data => {
+          res.status(200);
+          res.send(data.imageSrc);
+        });
     })
     .catch(next);
 });
