@@ -3,16 +3,15 @@
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import Profile from '../models/profile';
 
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  //username is an email address
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  coach: { type: Schema.Types.ObjectId, ref: 'profiles' },
-  player: { type: Schema.Types.ObjectId, ref: 'profiles' },
+  profile: { type: Schema.Types.ObjectId, ref: 'profiles' },
   team: { type: Schema.Types.ObjectId, ref: 'teams' },
   stats: { type: Schema.Types.ObjectId, ref: 'stats' },
   role: { type: String, enum: ['coach', 'player'] },
@@ -21,6 +20,11 @@ const userSchema = new Schema({
 
 userSchema.pre('save', function (next) {
   this.hashPassword(5, next);
+  let user = this;
+  let profile = new Profile({ user: user._id });
+  user.profile = profile._id;
+  profile.save();
+
 });
 
 userSchema.pre('findOne', function (next) {

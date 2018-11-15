@@ -12,7 +12,7 @@ import Profile from '../models/profile';
 
 uploadRouter.post('/upload', auth, upload.any(), (req, res, next) => {
   if (!req.files.length) {
-    return next('Invalid File UPload');
+    return next('Invalid File Upload');
   }
 
   let file = req.files[0];
