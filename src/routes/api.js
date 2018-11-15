@@ -147,7 +147,6 @@ router.put(`${baseURL}/:model`, auth, (req, res, next) => {
 
   return req.model.findOneAndUpdate({ _id: req.user[field]._id }, req.body, { new: true })
     .then(data => {
-      console.log(data);
       if (data.role) {
         User.findByIdAndUpdate(data.user, { role: data.role }, { new: true })
           .then(next())
