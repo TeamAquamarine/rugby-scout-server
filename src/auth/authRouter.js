@@ -24,6 +24,8 @@ authRouter.get('/oauth', (req, res, next) => {
   authorize(req)
     .then(token => {
       res.cookie('token', token);
+      console.log(token);
+
       res.redirect(process.env.REDIRECT_CLIENT_URI);
     })
     .catch(err => console.error(err));
