@@ -6,6 +6,7 @@ import auth from '../auth/middleware';
 import Profile from '../models/profile';
 import Team from '../models/team';
 import User from '../auth/user';
+import StatBlock from '../models/statBlock';
 const router = express.Router();
 
 router.param('model', modelFinder);
@@ -58,9 +59,17 @@ router.get(`${baseURL}/hello`, auth, (req, res, next) => {
 });
 
 router.get(`${baseURL}/myprofile`, auth, (req, res, next) => {
+  let data = {};
   return Profile.findOne({ user: req.user._id })
-    .then(data => {
-      res.send(data);
+    .then(profile => {
+      data.profile = profile;
+
+      return StatBlock.findOne({user: req.user._id })
+        .then(stats => {
+          data.stats = stats;
+          res.send(data);
+        });
+
     })
     .catch(next);
 });
