@@ -5,6 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import router from '../src/routes/api';
 import authRouter from './auth/authRouter';
+import uploadRouter from './routes/uploadRouter';
 import modelFinder from './middleware/modelFinder';
 import seeder from './seed';
 
@@ -19,6 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(authRouter);
 app.use(router);
+app.use(uploadRouter);
+
 
 let isRunning = false;
 

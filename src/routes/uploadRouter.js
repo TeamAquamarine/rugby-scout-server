@@ -20,10 +20,11 @@ uploadRouter.post('/upload', auth, upload.any(), (req, res, next) => {
 
   s3.upload(file.path, key)
     .then(url => {
-      console.log('in s3.upload callback', url);
-      Profile.findOneAndUpdate({_id: req.user.profile}, {imageSrc: url}, {new: true});
-      res.status(200);
-      res.send(url);
+      Profile.findOneAndUpdate({ user: req.user._id }, { imageSrc: url }, { new: true })
+        .then(data => {
+          res.status(200);
+          res.send(data.imageSrc);
+        });
     })
     .catch(next);
 });
