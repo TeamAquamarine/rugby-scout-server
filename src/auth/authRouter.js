@@ -23,6 +23,7 @@ authRouter.get('/login', auth, (req, res, next) => {
 authRouter.get('/oauth', (req, res, next) => {
   authorize(req)
     .then(token => {
+      res.header('Allow-Access-Control-Credentials', 's3bucketdeploytest.s3-website-us-east-1.amazonaws.com');
       res.cookie('rs_token', token);
       console.log(token);
 
