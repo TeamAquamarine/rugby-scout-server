@@ -109,11 +109,12 @@ router.get(`${baseURL}/:model/all/:role`, (req, res, next) => {
 
 router.get(`${baseURL}/profile/:id`, (req, res, next) => {
   let data = {};
-  return profile.findOne({ _id: req.params.id })
-    .then(profile => {
-      data.profile = profile;
+  return Profile.findOne({ _id: req.params.id })
+    .then(userProfile => {
+      data.profile = userProfile;
 
-      return StatBlock.findOne({ _id: req.params._id })
+      return StatBlock.find()
+        .where({profile: req.params.id})
         .then(stats => {
           data.stats = stats;
           res.send(data);
