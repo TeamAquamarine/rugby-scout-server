@@ -23,7 +23,7 @@ authRouter.get('/login', auth, (req, res, next) => {
 authRouter.get('/oauth', (req, res, next) => {
   authorize(req)
     .then(token => {
-      res.cookie('token', token);
+      res.cookie('rs_token', token);
       console.log(token);
 
       res.redirect(process.env.REDIRECT_CLIENT_URI);
