@@ -25,7 +25,7 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 3. change sample-env to .env and add your values
 
 ## Front End Repo - Rugby Scout Client
-[Front End](https://github.com/TeamAquamarine/rugby-scout-server)
+[Front End](https://github.com/TeamAquamarine/rugby-scout-client)
 
 ## Technologies Used
 * **[Node.js](https://nodejs.org)**
