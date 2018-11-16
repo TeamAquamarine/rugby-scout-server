@@ -64,7 +64,7 @@ router.get(`${baseURL}/myprofile`, auth, (req, res, next) => {
     .then(profile => {
       data.profile = profile;
 
-      return StatBlock.findOne({user: req.user._id })
+      return StatBlock.findOne({ user: req.user._id })
         .then(stats => {
           data.stats = stats;
           res.send(data);
@@ -103,6 +103,21 @@ router.get(`${baseURL}/:model/all/:role`, (req, res, next) => {
     .where({ role: req.params.role })
     .then(data => {
       res.send(data);
+    })
+    .catch(next);
+});
+
+router.get(`${baseURL}/profile/:id`, (req, res, next) => {
+  let data = {};
+  return profile.findOne({ _id: req.params.id })
+    .then(profile => {
+      data.profile = profile;
+
+      return StatBlock.findOne({ _id: req.params._id })
+        .then(stats => {
+          data.stats = stats;
+          res.send(data);
+        });
     })
     .catch(next);
 });
