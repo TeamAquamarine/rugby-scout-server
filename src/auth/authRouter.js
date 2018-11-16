@@ -23,7 +23,6 @@ authRouter.get('/login', auth, (req, res, next) => {
 authRouter.get('/oauth', (req, res, next) => {
   authorize(req)
     .then(token => {
-      res.header('Access-Control-Allow-Origin', 'https://happy-franklin-03cd80.netlify.com');
       res.cookie('rs_token', token);
       console.log(token);
 
