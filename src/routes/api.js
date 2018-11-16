@@ -64,7 +64,8 @@ router.get(`${baseURL}/myprofile`, auth, (req, res, next) => {
     .then(profile => {
       data.profile = profile;
 
-      return StatBlock.findOne({user: req.user._id })
+      return StatBlock.findOne({ user: req.user._id })
+        .select('-user -profile -_id -__v')
         .then(stats => {
           data.stats = stats;
           res.send(data);
@@ -103,6 +104,23 @@ router.get(`${baseURL}/:model/all/:role`, (req, res, next) => {
     .where({ role: req.params.role })
     .then(data => {
       res.send(data);
+    })
+    .catch(next);
+});
+
+router.get(`${baseURL}/profile/:id`, (req, res, next) => {
+  let data = {};
+  return Profile.findOne({ _id: req.params.id })
+    .then(userProfile => {
+      data.profile = userProfile;
+
+      return StatBlock.find()
+        .where({ profile: req.params.id })
+        .select('-_id -user -profile -__v')
+        .then(stats => {
+          data.stats = stats;
+          res.send(data);
+        });
     })
     .catch(next);
 });
@@ -155,7 +173,7 @@ router.put('/team/roster/remove/:id', auth, (req, res, next) => {
 router.put(`${baseURL}/:model`, auth, (req, res, next) => {
   const field = req.params.model === 'statBlock' ? 'stats' : req.params.model;
 
-  return req.model.findOneAndUpdate({ _id: req.user[field]._id }, req.body, { new: true })
+  return req.model.findOneAndUpdate({ user: req.user._id }, req.body, { new: true })
     .then(data => {
       if (data.role) {
         User.findByIdAndUpdate(data.user, { role: data.role }, { new: true })
