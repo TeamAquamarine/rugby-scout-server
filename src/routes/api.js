@@ -173,7 +173,7 @@ router.put('/team/roster/remove/:id', auth, (req, res, next) => {
 router.put(`${baseURL}/:model`, auth, (req, res, next) => {
   const field = req.params.model === 'statBlock' ? 'stats' : req.params.model;
 
-  return req.model.findOneAndUpdate({ _id: req.user[field]._id }, req.body, { new: true })
+  return req.model.findOneAndUpdate({ user: req.user._id }, req.body, { new: true })
     .then(data => {
       if (data.role) {
         User.findByIdAndUpdate(data.user, { role: data.role }, { new: true })
