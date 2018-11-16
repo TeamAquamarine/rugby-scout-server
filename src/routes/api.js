@@ -114,7 +114,8 @@ router.get(`${baseURL}/profile/:id`, (req, res, next) => {
       data.profile = userProfile;
 
       return StatBlock.find()
-        .where({profile: req.params.id})
+        .where({ profile: req.params.id })
+        .select('-_id -user -profile -__v')
         .then(stats => {
           data.stats = stats;
           res.send(data);
