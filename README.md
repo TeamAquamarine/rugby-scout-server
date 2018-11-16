@@ -7,8 +7,6 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 
 ## Table of Contents
 <!-- TOC -->
-
-- [Status](#status)
 - [Installation](#installation)
 - [Technologies Used](#technologies-used)
 - [Entity Relationship Diagram](#entity-relationship-diagram)
@@ -20,8 +18,6 @@ Created by: [Sharon Miller](https://github.com/SharonMiller), [Connor Crossley](
 - [User Stories](#user-stories)
 
 
-## Travis CI Build Status
-[![Build Status](https://travis-ci.com/TeamAquamarine/rugby-scout-server.svg?branch=master)](https://travis-ci.com/TeamAquamarine/rugby-scout-server/builds/)
 
 ## Installation
 1. [Clone Repository](https://github.com/TeamAquamarine/rugby-scout-server)
